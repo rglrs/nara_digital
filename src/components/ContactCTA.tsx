@@ -58,6 +58,31 @@ export default function ContactCTA() {
               Tidak harus sudah tahu sistem apa yang Anda butuhkan. Ceritakan proses atau masalah bisnis Anda, dan mari cari solusi yang tepat bersama.
             </p>
 
+            {/* Friction Reducer / Trust Badges */}
+            <div className="p-4 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] space-y-3">
+              <div className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
+                <div className="text-xs">
+                  <span className="font-bold text-[var(--text-primary)]">Konsultasi Awal 100% Gratis:</span>{' '}
+                  <span className="text-[var(--text-secondary)]">Diskusikan kebutuhan tanpa komitmen atau biaya tersembunyi.</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-[var(--accent)] mt-0.5 shrink-0" />
+                <div className="text-xs">
+                  <span className="font-bold text-[var(--text-primary)]">Menyesuaikan Anggaran:</span>{' '}
+                  <span className="text-[var(--text-secondary)]">Punya budget tertentu? Kami bantu rancang prioritas fitur esensial agar tetap tepat sasaran.</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 mt-0.5 shrink-0" />
+                <div className="text-xs">
+                  <span className="font-bold text-[var(--text-primary)]">Estimasi Transparan:</span>{' '}
+                  <span className="text-[var(--text-secondary)]">Ruang lingkup kerja dan rincian waktu disepakati jelas sebelum pengerjaan dimulai.</span>
+                </div>
+              </div>
+            </div>
+
             {/* Direct Contact Options (Configurable from central studioConfig) */}
             <div className="pt-6 border-t border-[var(--border-subtle)] space-y-3">
               <div className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">

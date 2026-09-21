@@ -3,6 +3,14 @@ export interface ProjectFeature {
   description: string;
 }
 
+export interface Testimonial {
+  quote: string;
+  clientName: string;
+  clientRole: string;
+  projectTitle: string;
+  projectSlug?: string;
+}
+
 export interface Project {
   id: string;
   slug: string;
@@ -17,6 +25,7 @@ export interface Project {
   image: string;
   featured: boolean;
   type: 'business-system' | 'web-app' | 'mobile-app';
+  testimonial?: Testimonial;
 }
 
 export interface ServiceItem {

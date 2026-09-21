@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { Project } from '@/types';
-import { X, CheckCircle2, Server, Layers, Cpu, Image as ImageIcon } from 'lucide-react';
+import { X, CheckCircle2, Server, Layers, Cpu, Image as ImageIcon, Quote } from 'lucide-react';
 import DeviceMockup from './DeviceMockup';
 
 interface ProjectModalProps {
@@ -112,6 +112,22 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               </p>
             </div>
           </div>
+
+          {/* Client Testimonial (if available) */}
+          {project.testimonial && (
+            <div className="p-5 rounded-xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] space-y-2.5">
+              <div className="text-xs font-bold uppercase tracking-wider text-[var(--accent)] flex items-center gap-1.5">
+                <Quote className="w-3.5 h-3.5" />
+                <span>Feedback Klien ({project.testimonial.clientName})</span>
+              </div>
+              <blockquote className="text-sm text-[var(--text-primary)] italic leading-relaxed">
+                &ldquo;{project.testimonial.quote}&rdquo;
+              </blockquote>
+              <div className="text-xs text-[var(--text-secondary)] font-medium pt-1">
+                &mdash; {project.testimonial.clientName}, {project.testimonial.clientRole}
+              </div>
+            </div>
+          )}
 
           {/* Key Features Section */}
           <div>

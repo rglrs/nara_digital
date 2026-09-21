@@ -5,6 +5,7 @@ import TrustSection from '@/components/TrustSection';
 import Services from '@/components/Services';
 import BusinessSolutions from '@/components/BusinessSolutions';
 import ProjectGrid from '@/components/ProjectGrid';
+import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
 import WhyNara from '@/components/WhyNara';
 import About from '@/components/About';
@@ -23,6 +24,7 @@ export default function Home() {
         <Services />
         <BusinessSolutions />
         <ProjectGrid />
+        <Testimonials />
         <Process />
         <WhyNara />
         <About />

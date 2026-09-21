@@ -9,6 +9,7 @@ export default function Footer() {
     { name: 'Layanan', href: '#services' },
     { name: 'Solusi', href: '#solutions' },
     { name: 'Proyek', href: '#projects' },
+    { name: 'Testimoni', href: '#testimonials' },
     { name: 'Cara Kerja', href: '#process' },
     { name: 'Tentang', href: '#about' },
     { name: 'Kontak', href: '#contact' },

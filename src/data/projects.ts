@@ -40,6 +40,13 @@ export const projectsData: Project[] = [
     image: '/images/vizada.png',
     featured: true,
     type: 'business-system',
+    testimonial: {
+      quote:
+        'Sebelumnya antrean pesanan cetak dan hitung estimasi bahan sering tercecer di WhatsApp. Dengan sistem manajemen dari NARA, alur kerja dari pesanan masuk, kalkulasi biaya otomatis, sampai status cetak dan finishing terpantau jelas di satu layar.',
+      clientName: 'Ziven',
+      clientRole: 'Operasional & Bisnis',
+      projectTitle: 'Vizada (Sistem Operasional Percetakan)',
+    },
   },
   {
     id: 'shaman-os',
@@ -80,21 +87,32 @@ export const projectsData: Project[] = [
     image: '/images/shaman.png',
     featured: true,
     type: 'business-system',
+    testimonial: {
+      quote:
+        'Sebelumnya rekap kehadiran tim, kalkulasi rincian gaji, dan arsip dokumen tersebar di banyak spreadsheet yang rawan selisih data. Shaman OS menyatukan administrasi SDM dan monitoring operasional harian kami ke dalam satu sistem yang rapi dan terpusat.',
+      clientName: 'Labisal',
+      clientRole: 'Operasional & Manajemen Tim',
+      projectTitle: 'Shaman OS (Platform ERP & HR)',
+    },
   },
   {
     id: 'tasca',
     slug: 'tasca',
     title: 'TASCA',
-    category: 'Mobile Applications / Produktivitas',
+    category: 'Mobile Applications / Google Play Store',
     shortDescription:
-      'Aplikasi mobile produktivitas harian yang memadukan manajemen tugas, pengatur waktu fokus, dan kalender terpadu dengan sinkronisasi backend yang cepat.',
+      'Aplikasi mobile produktivitas harian yang memadukan manajemen tugas, pengatur waktu fokus, dan kalender terpadu. Berhasil dipublikasikan secara publik di Google Play Store dengan backend API berkinerja tinggi.',
     challenge:
-      'Banyak pengguna dan pekerja mandiri kesulitan menjaga ritme kerja ketika daftar tugas harian terpisah dari jadwal kalender dan alat manajemen waktu.',
+      'Membangun aplikasi mobile mandiri yang mampu lolos standar rilis ketat Google Play Store, menjaga kestabilan performa cross-platform, serta menyediakan sinkronisasi backend yang cepat dan bebas latensi.',
     approach:
-      'Mengembangkan aplikasi mobile cross-platform yang responsif dengan arsitektur REST API berkinerja tinggi untuk menjaga kecepatan akses dan sinkronisasi data.',
+      'Mengembangkan aplikasi mobile Flutter dengan arsitektur REST API modular berbasis Go (Golang), menerapkan pipeline rilis aplikasi mobile hingga tahap produksi publik di Play Store.',
     solution:
-      'Aplikasi mobile produktivitas yang menggabungkan To-Do list, timer Pomodoro, sinkronisasi kalender, serta notifikasi pengingat yang terhubung ke backend andal.',
+      'Aplikasi mobile produktivitas yang berhasil dirilis di Google Play Store, menggabungkan To-Do list, timer Pomodoro, sinkronisasi kalender, serta backend Go yang ringan dan andal.',
     keyFeatures: [
+      {
+        title: 'Publikasi Google Play Store',
+        description: 'Memenuhi seluruh standar teknis rilis produksi, compliance privasi, dan optimasi bundel aplikasi di Google Play Store.',
+      },
       {
         title: 'Manajemen Tugas & Prioritas',
         description: 'Pengelompokan tugas harian dengan tenggat waktu dan status pengerjaan yang jelas.',
@@ -160,6 +178,13 @@ export const projectsData: Project[] = [
     image: '/images/sibuk-ceria.png',
     featured: false,
     type: 'web-app',
+    testimonial: {
+      quote:
+        'Sistem konseling digital ini sangat memudahkan interaksi antara guru BK dan siswa. Siswa tidak lagi canggung menjadwalkan sesi bimbingan, kerahasiaan data terjamin aman, dan pengarsipan riwayat konseling jadi sangat terstruktur.',
+      clientName: 'Umzah',
+      clientRole: 'Inisiator & Pengelola Program',
+      projectTitle: 'Sibuk Ceria (Platform Bimbingan & Konseling)',
+    },
   },
   {
     id: 'tahfizh-app',
@@ -200,21 +225,32 @@ export const projectsData: Project[] = [
     image: '/images/tahfizh.png',
     featured: false,
     type: 'web-app',
+    testimonial: {
+      quote:
+        'Pencatatan setoran hafalan santri yang tadinya manual di buku fisik rawan hilang atau rusak, sekarang tersimpan rapi di web. Orang tua santri juga sangat terbantu karena bisa memantau progres hafalan dan murojaah anak secara transparan.',
+      clientName: 'Candra',
+      clientRole: 'Pengelola Lembaga',
+      projectTitle: 'Tahfizh App (Sistem Monitoring Hafalan)',
+    },
   },
   {
     id: 'mental-health-monitor',
     slug: 'mental-health-monitor',
     title: 'Mental Health Monitor',
-    category: 'Healthcare / Web Application',
+    category: 'Healthcare / R&D Prototype',
     shortDescription:
-      'Purwarupa aplikasi evaluasi diri berbasis web untuk membantu pengguna mencatat dan memantau pola suasana hati serta tingkat stres secara berkala.',
+      'Purwarupa riset dan eksplorasi analitik kesehatan mental berbasis web, mendemonstrasikan pengolahan dataset terstruktur dan visualisasi pola tren suasana hati.',
     challenge:
-      'Pengguna sering kali tidak menyadari pola fluktuasi suasana hati dan pemicu stres harian tanpa adanya alat bantu pencatatan berkala yang mudah diakses.',
+      'Mengeksplorasi representasi data fluktuasi suasana hati dan pemicu stres harian agar dapat diinterpretasikan secara intuitif oleh pengguna tanpa beban kognitif berlebih.',
     approach:
-      'Merancang antarmuka web evaluasi mandiri dengan pengolahan dataset terstruktur dan visualisasi riwayat yang informatif.',
+      'Merancang purwarupa Proof of Concept (PoC) yang menggabungkan pengolahan data Python dengan antarmuka interaktif yang bersih dan terstruktur.',
     solution:
-      'Aplikasi web evaluasi mandiri dengan antarmuka bersih, visualisasi tren perkembangan kondisi, dan pengolahan data terstruktur.',
+      'Eksplorasi antarmuka riset mandiri (PoC) dengan kuesioner terstruktur, pemrosesan data analitik, dan visualisasi perkembangan kondisi pengguna.',
     keyFeatures: [
+      {
+        title: 'Proof of Concept (R&D Prototype)',
+        description: 'Eksplorasi konsep pemrosesan dataset analitik dan pemetaan pola tren berbasis web.',
+      },
       {
         title: 'Kuesioner Evaluasi Berkala',
         description: 'Instrumen refleksi diri yang terstruktur dan dapat diisi dengan cepat setiap hari.',
