@@ -38,7 +38,7 @@ export default function Hero() {
                 href="#contact"
                 className="btn-interactive inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg text-base font-semibold bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-95 shadow-sm group"
               >
-                <span>Mulai Proyek</span>
+                <span>Mulai Project</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </a>
 
@@ -46,12 +46,17 @@ export default function Hero() {
                 href="#projects"
                 className="btn-interactive inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-base font-semibold bg-[var(--bg-surface)] text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-surface-elevated)]"
               >
-                <span>Lihat Hasil Kerja</span>
+                <span>Lihat Project</span>
               </a>
             </div>
 
+            {/* Supporting sentence under CTA */}
+            <p className="text-xs text-[var(--text-muted)] pt-1">
+              Belum tahu solusi yang dibutuhkan? Ceritakan saja masalahnya.
+            </p>
+
             {/* Reassurance notes */}
-            <div className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-[var(--text-muted)] font-medium">
+            <div className="pt-2 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-[var(--text-muted)] font-medium">
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Tanpa template generik</span>
@@ -89,21 +94,27 @@ export default function Hero() {
                 {/* Dashboard Body Preview */}
                 <div className="p-5 space-y-5">
                   {/* Top Stats Overview (Realistic Operational Metrics) */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
-                      <div className="text-[11px] font-medium text-[var(--text-muted)]">Pesanan Aktif</div>
-                      <div className="text-xl font-bold text-[var(--text-primary)] mt-1">24 Order</div>
-                      <div className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-0.5">8 siap kirim</div>
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    <div className="p-2.5 sm:p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] min-w-0">
+                      <div className="text-[10px] sm:text-[11px] font-medium text-[var(--text-muted)] truncate">Pesanan Aktif</div>
+                      <div className="text-base sm:text-xl font-bold text-[var(--text-primary)] mt-1 flex items-baseline gap-1">
+                        <span>24</span>
+                        <span className="text-[10px] sm:text-xs font-normal text-[var(--text-muted)]">Order</span>
+                      </div>
+                      <div className="text-[9px] sm:text-[10px] text-emerald-600 dark:text-emerald-400 mt-0.5 truncate">8 siap kirim</div>
                     </div>
-                    <div className="p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
-                      <div className="text-[11px] font-medium text-[var(--text-muted)]">Produksi Hari Ini</div>
-                      <div className="text-xl font-bold text-[var(--text-primary)] mt-1">94.2%</div>
-                      <div className="text-[10px] text-blue-600 dark:text-blue-400 mt-0.5">Sesuai jadwal</div>
+                    <div className="p-2.5 sm:p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] min-w-0">
+                      <div className="text-[10px] sm:text-[11px] font-medium text-[var(--text-muted)] truncate">Produksi Hari Ini</div>
+                      <div className="text-base sm:text-xl font-bold text-[var(--text-primary)] mt-1">94.2%</div>
+                      <div className="text-[9px] sm:text-[10px] text-blue-600 dark:text-blue-400 mt-0.5 truncate">Sesuai jadwal</div>
                     </div>
-                    <div className="p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
-                      <div className="text-[11px] font-medium text-[var(--text-muted)]">Antrean Verifikasi</div>
-                      <div className="text-xl font-bold text-[var(--text-primary)] mt-1">3 Menunggu</div>
-                      <div className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">Perlu konfirmasi</div>
+                    <div className="p-2.5 sm:p-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] min-w-0">
+                      <div className="text-[10px] sm:text-[11px] font-medium text-[var(--text-muted)] truncate">Antrean Verifikasi</div>
+                      <div className="text-base sm:text-xl font-bold text-[var(--text-primary)] mt-1 flex items-baseline gap-1">
+                        <span>3</span>
+                        <span className="text-[10px] sm:text-xs font-normal text-[var(--text-muted)]">Order</span>
+                      </div>
+                      <div className="text-[9px] sm:text-[10px] text-amber-600 dark:text-amber-400 mt-0.5 truncate">Menunggu review</div>
                     </div>
                   </div>
 

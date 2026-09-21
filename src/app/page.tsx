@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import TrustSection from '@/components/TrustSection';
 import Services from '@/components/Services';
+import BusinessSolutions from '@/components/BusinessSolutions';
 import ProjectGrid from '@/components/ProjectGrid';
 import Process from '@/components/Process';
 import WhyNara from '@/components/WhyNara';
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <TrustSection />
         <Services />
+        <BusinessSolutions />
         <ProjectGrid />
         <Process />
         <WhyNara />
@@ -30,3 +32,4 @@ export default function Home() {
     </>
   );
 }
+

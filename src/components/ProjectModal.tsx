@@ -70,8 +70,11 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
         {/* Modal Content */}
         <div className="p-6 sm:p-8 space-y-8">
-          {/* Header Title & Short Description */}
+          {/* Overview */}
           <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-[var(--accent)] mb-1">
+              Overview Proyek
+            </div>
             <h2 id="modal-title" className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
               {project.title}
             </h2>
@@ -80,41 +83,29 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </p>
           </div>
 
-          {/* Visual Device Preview */}
+          {/* Project Gallery / Interface Preview */}
           <div className="p-4 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)]">
             <div className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3 flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-[var(--accent)]" />
-              <span>Preview Antarmuka Sistem</span>
+              <span>Project Gallery & Pratinjau Antarmuka</span>
             </div>
             <DeviceMockup project={project} isDetailed={true} />
-            <div className="mt-3 text-[11px] text-[var(--text-muted)] text-center">
-              [Tangkapan layar resolusi tinggi dapat diperbarui pada data proyek]
-            </div>
           </div>
 
-          {/* Challenge, Approach, & Solution Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
-              <div className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 mb-2">
-                Tantangan Bisnis
+          {/* The Challenge & The Solution */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                The Challenge (Masalah Bisnis)
               </div>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                 {project.challenge}
               </p>
             </div>
 
-            <div className="p-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
-              <div className="text-xs font-bold uppercase tracking-wider text-[var(--accent)] mb-2">
-                Pendekatan Solusi
-              </div>
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                {project.approach}
-              </p>
-            </div>
-
-            <div className="p-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]">
-              <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-2">
-                Hasil & Solusi
+            <div className="p-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                The Solution (Solusi Sistem)
               </div>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                 {project.solution}
@@ -124,6 +115,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           {/* Key Features Section */}
           <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-[var(--accent)] mb-1">
+              Key Features
+            </div>
             <h3 className="text-lg font-bold text-[var(--text-primary)] tracking-tight mb-4 flex items-center gap-2">
               <Layers className="w-4 h-4 text-[var(--accent)]" />
               <span>Fitur Utama Sistem</span>
@@ -152,7 +146,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           {/* Technology Badges */}
           <div className="pt-4 border-t border-[var(--border-subtle)]">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3 flex items-center gap-2">
+            <div className="text-xs font-bold uppercase tracking-wider text-[var(--accent)] mb-1">
+              Technology Stack
+            </div>
+            <h3 className="text-sm font-bold text-[var(--text-primary)] tracking-tight mb-3 flex items-center gap-2">
               <Cpu className="w-4 h-4 text-[var(--accent)]" />
               <span>Teknologi yang Digunakan</span>
             </h3>

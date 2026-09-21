@@ -51,11 +51,11 @@ export default function ContactCTA() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
-              Punya rencana proyek digital?
+              Punya masalah yang ingin didigitalisasi?
             </h2>
 
             <p className="text-base text-[var(--text-secondary)] leading-relaxed">
-              Ceritakan proses bisnis yang ingin Anda sederhanakan, otomatisasi, atau bangun dari awal. Kami siap membantu merumuskannya menjadi solusi digital yang praktis dan efisien.
+              Tidak harus sudah tahu sistem apa yang Anda butuhkan. Ceritakan proses atau masalah bisnis Anda, dan mari cari solusi yang tepat bersama.
             </p>
 
             {/* Direct Contact Options (Configurable from central studioConfig) */}
@@ -145,7 +145,7 @@ export default function ContactCTA() {
                         name: '',
                         email: '',
                         business: '',
-                        projectType: 'Sistem Operasional / ERP',
+                        projectType: 'Business Website',
                         message: '',
                       });
                     }}
@@ -170,7 +170,7 @@ export default function ContactCTA() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="block text-xs font-semibold text-[var(--text-primary)] mb-1.5">
-                      Nama Lengkap *
+                      Nama Anda *
                     </label>
                     <input
                       type="text"
@@ -184,23 +184,6 @@ export default function ContactCTA() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-xs font-semibold text-[var(--text-primary)] mb-1.5">
-                      Alamat Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="nama@perusahaan.com"
-                      className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
                     <label htmlFor="business" className="block text-xs font-semibold text-[var(--text-primary)] mb-1.5">
                       Nama Bisnis / Organisasi
                     </label>
@@ -213,10 +196,27 @@ export default function ContactCTA() {
                       className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] transition-all"
                     />
                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="email" className="block text-xs font-semibold text-[var(--text-primary)] mb-1.5">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="nama@perusahaan.com"
+                      className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] transition-all"
+                    />
+                  </div>
 
                   <div>
                     <label htmlFor="projectType" className="block text-xs font-semibold text-[var(--text-primary)] mb-1.5">
-                      Jenis Solusi yang Dibutuhkan
+                      Jenis Kebutuhan
                     </label>
                     <select
                       id="projectType"
@@ -224,18 +224,20 @@ export default function ContactCTA() {
                       onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] focus:border-[var(--accent)] transition-all"
                     >
-                      <option value="Sistem Operasional / ERP">Sistem Operasional / ERP</option>
-                      <option value="Web Application Kustom">Web Application Kustom</option>
-                      <option value="Aplikasi Mobile (Android/iOS)">Aplikasi Mobile (Android/iOS)</option>
-                      <option value="Website Bisnis / Company Profile">Website Bisnis / Company Profile</option>
-                      <option value="Pemeliharaan & Peningkatan Sistem">Pemeliharaan & Peningkatan Sistem</option>
+                      <option value="Business Website">Business Website</option>
+                      <option value="Booking & Reservation System">Booking & Reservation System</option>
+                      <option value="Inventory & Management System">Inventory & Management System</option>
+                      <option value="Order Management">Order Management</option>
+                      <option value="Custom Business Dashboard">Custom Business Dashboard</option>
+                      <option value="Aplikasi Mobile">Aplikasi Mobile</option>
+                      <option value="Lainnya / Kebutuhan Kustom">Lainnya / Kebutuhan Kustom</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-xs font-semibold text-[var(--text-primary)] mb-1.5">
-                    Ceritakan Kebutuhan atau Kendala Anda *
+                    Ceritakan masalah atau proses bisnis yang ingin Anda perbaiki... *
                   </label>
                   <textarea
                     id="message"
@@ -243,19 +245,22 @@ export default function ContactCTA() {
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Jelaskan secara singkat proses bisnis yang ingin diotomatisasi, fitur utama yang diinginkan, atau estimasi target waktu..."
+                    placeholder="Ceritakan masalah atau proses bisnis yang ingin Anda perbaiki..."
                     className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] transition-all"
                   />
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-2 space-y-2">
                   <button
                     type="submit"
                     className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-lg text-sm font-semibold bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-95 shadow-sm group"
                   >
-                    <span>Kirim Pesan Diskusi</span>
-                    <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                    <span>Kirim Project Brief</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                   </button>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    Belum yakin solusi apa yang dibutuhkan? Tidak masalah. Ceritakan saja masalahnya.
+                  </p>
                 </div>
               </form>
             )}
@@ -265,3 +270,4 @@ export default function ContactCTA() {
     </section>
   );
 }
+

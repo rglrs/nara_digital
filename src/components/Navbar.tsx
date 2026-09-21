@@ -46,6 +46,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Beranda', href: '#hero' },
     { name: 'Layanan', href: '#services' },
+    { name: 'Solusi', href: '#solutions' },
     { name: 'Proyek', href: '#projects' },
     { name: 'Cara Kerja', href: '#process' },
     { name: 'Tentang', href: '#about' },
@@ -104,7 +105,7 @@ export default function Navbar() {
               href="#contact"
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-95 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-[0.98] transition-all cursor-pointer group"
             >
-              <span>Mulai Proyek</span>
+              <span>Mulai Project</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
@@ -154,7 +155,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-95 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all cursor-pointer group"
             >
-              <span>Mulai Proyek</span>
+              <span>Mulai Project</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>

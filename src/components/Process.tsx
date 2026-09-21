@@ -4,34 +4,38 @@ import { Search, Compass, Code2, Rocket } from 'lucide-react';
 const steps = [
   {
     number: '01',
+    stepLabel: 'STEP 01',
     title: 'Discover',
-    subtitle: 'Eksplorasi & Pemahaman',
+    subtitle: 'Pemahaman Masalah',
     description:
-      'Memahami alur kerja bisnis, masalah operasional nyata, profil pengguna, serta tujuan spesifik yang ingin dicapai melalui digitalisasi.',
+      'Kami memahami bisnis, pengguna, proses, dan masalah yang ingin diselesaikan.',
     icon: <Search className="w-5 h-5" />,
   },
   {
     number: '02',
+    stepLabel: 'STEP 02',
     title: 'Plan',
-    subtitle: 'Perencanaan & Arsitektur',
+    subtitle: 'Perencanaan Sistem',
     description:
-      'Merumuskan spesifikasi fungsional, alur navigasi pengguna (user flow), prioritas fitur, dan pemilihan arsitektur teknis yang tepat.',
+      'Kami menyusun kebutuhan, user flow, fitur, dan pendekatan teknis sebelum development dimulai.',
     icon: <Compass className="w-5 h-5" />,
   },
   {
     number: '03',
+    stepLabel: 'STEP 03',
     title: 'Build',
-    subtitle: 'Desain & Pengembangan',
+    subtitle: 'Pengembangan & Pengujian',
     description:
-      'Mendesain antarmuka yang bersih, menulis kode terstruktur, melakukan pengujian sistem secara bertahap, dan menampung umpan balik berkala.',
+      'Kami merancang, mengembangkan, menguji, dan menyempurnakan solusi secara bertahap.',
     icon: <Code2 className="w-5 h-5" />,
   },
   {
     number: '04',
+    stepLabel: 'STEP 04',
     title: 'Launch',
-    subtitle: 'Deployment & Pendampingan',
+    subtitle: 'Penerapan & Pemeliharaan',
     description:
-      'Merilis sistem ke lingkungan produksi, memastikan kestabilan operasional, serta menyediakan dukungan teknis untuk pembaruan fitur ke depan.',
+      'Solusi diterapkan dan disiapkan untuk digunakan, dikembangkan, serta dipelihara dalam jangka panjang.',
     icon: <Rocket className="w-5 h-5" />,
   },
 ];
@@ -50,10 +54,10 @@ export default function Process() {
             METODOLOGI KERJA
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Proses sederhana. Komunikasi transparan.
+            Proses terstruktur. Komunikasi jelas.
           </h2>
           <p className="mt-3 text-base text-[var(--text-secondary)] leading-relaxed">
-            Setiap proyek dikerjakan melalui tahapan terstruktur agar hasil akhir tepat guna, selesai sesuai tenggat, dan mudah dikembangkan lebih lanjut.
+            Setiap proyek dikerjakan melalui tahapan yang rapi agar hasil akhir tepat guna, selesai sesuai prioritas, dan siap dikembangkan lebih lanjut.
           </p>
         </div>
 
@@ -67,8 +71,8 @@ export default function Process() {
               <div>
                 {/* Step Number & Icon */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold text-[var(--accent)] px-2 py-0.5 rounded bg-[var(--accent-subtle)] border border-[var(--accent-border)]">
-                    Tahap {step.number}
+                  <span className="text-xs font-mono font-bold text-[var(--accent)] px-2.5 py-0.5 rounded bg-[var(--accent-subtle)] border border-[var(--accent-border)]">
+                    {step.stepLabel}
                   </span>
                   <div className="w-8 h-8 rounded-lg bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] flex items-center justify-center border border-[var(--border-subtle)]">
                     {step.icon}
@@ -89,10 +93,10 @@ export default function Process() {
                 </p>
               </div>
 
-              {/* Progress indicator */}
+              {/* Step indicator */}
               <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] text-[var(--text-muted)] font-mono">
-                <span>0{idx + 1} / 04</span>
-                <span className="text-emerald-600 font-medium">Terverifikasi</span>
+                <span>Tahap 0{idx + 1}</span>
+                <span className="font-semibold text-[var(--text-primary)]">0{idx + 1} / 04</span>
               </div>
             </div>
           ))}

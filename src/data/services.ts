@@ -6,12 +6,12 @@ export const servicesData: ServiceItem[] = [
     title: 'Web Development',
     tagline: 'Website responsif, portal bisnis, dan aplikasi web modern.',
     description:
-      'Membangun aplikasi web performa tinggi yang dirancang sesuai alur kerja bisnis, cepat diakses dari berbagai perangkat, dan mudah dikelola.',
+      'Website, dashboard, portal, dan aplikasi web yang dirancang sesuai kebutuhan bisnis dan pengguna.',
     examples: [
-      'Company profiles & landing pages',
-      'Admin dashboards & reporting',
-      'Customer portals & self-service',
-      'Custom web applications',
+      'Company profile & landing page bisnis',
+      'Admin dashboard & visualisasi data',
+      'Portal pelanggan & layanan mandiri',
+      'Aplikasi web kustom berbasis alur kerja',
     ],
   },
   {
@@ -19,25 +19,25 @@ export const servicesData: ServiceItem[] = [
     title: 'Business Systems',
     tagline: 'Digitalisasi alur kerja manual menjadi sistem yang terstruktur.',
     description:
-      'Mengintegrasikan proses operasional seperti pencatatan transaksi, inventaris, reservasi, dan absensi ke dalam satu platform terpusat.',
+      'Digitalisasi proses bisnis yang masih dilakukan secara manual, mulai dari pengelolaan data hingga operasional dan laporan.',
     examples: [
-      'Sistem manajemen operasional',
-      'Sistem inventaris & stok barang',
-      'Sistem pemesanan & booking',
-      'Sistem penggajian & absensi',
+      'Sistem manajemen operasional terpadu',
+      'Sistem inventaris & kontrol stok barang',
+      'Sistem reservasi & penjadwalan layanan',
+      'Sistem pencatatan transaksi & laporan keuangan',
     ],
   },
   {
     number: '03',
     title: 'Mobile Applications',
-    tagline: 'Aplikasi mobile cross-platform untuk pengguna dan tim internal.',
+    tagline: 'Aplikasi mobile cross-platform untuk pelanggan dan tim internal.',
     description:
-      'Mengembangkan aplikasi mobile yang intuitif dan responsif dengan integrasi API backend yang cepat dan aman untuk sistem operasi Android dan iOS.',
+      'Aplikasi mobile untuk kebutuhan pelanggan, operasional internal, maupun produk digital.',
     examples: [
-      'Aplikasi layanan pelanggan',
-      'Aplikasi produktivitas kerja',
-      'Aplikasi pemantauan lapangan',
-      'Integrasi notifikasi real-time',
+      'Aplikasi layanan & transaksi pelanggan',
+      'Aplikasi pendukung produktivitas kerja',
+      'Aplikasi pemantauan operasional lapangan',
+      'Integrasi notifikasi push real-time',
     ],
   },
   {
@@ -45,12 +45,12 @@ export const servicesData: ServiceItem[] = [
     title: 'UI/UX Design',
     tagline: 'Antarmuka terarah yang mengutamakan kemudahan navigasi.',
     description:
-      'Merancang antarmuka bersih dan sistem alur pengguna (user flow) yang logis, memprioritaskan efisiensi pengguna dalam menyelesaikan tugas sehari-hari.',
+      'Antarmuka dan alur pengguna yang sederhana, jelas, dan mudah digunakan.',
     examples: [
-      'Riset kebutuhan & wireframing',
-      'Desain sistem desain (design system)',
-      'Prototipe interaktif',
-      'Audit kemudahan penggunaan (usability)',
+      'Analisis alur bisnis & wireframing',
+      'Design system yang konsisten & modular',
+      'Prototipe interaktif sebelum pengembangan',
+      'Penyederhanaan alur kerja rumit',
     ],
   },
   {
@@ -58,12 +58,13 @@ export const servicesData: ServiceItem[] = [
     title: 'Maintenance & Improvement',
     tagline: 'Pemeliharaan berkelanjutan dan peningkatan performa sistem.',
     description:
-      'Menjaga keandalan perangkat lunak yang sudah berjalan di tahap produksi melalui pembaruan rutin, penambahan fitur baru, optimasi kecepatan, dan pemantauan bug.',
+      'Pemeliharaan, pengembangan fitur, deployment, dan peningkatan sistem setelah produk berjalan.',
     examples: [
-      'Pemantauan kesehatan server & database',
-      'Pembaruan keamanan & dependensi',
-      'Pengembangan fitur lanjutan',
+      'Pemantauan performa server & database',
+      'Pembaruan keamanan & dependensi sistem',
+      'Pengembangan fitur lanjutan sesuai pertumbuhan bisnis',
       'Dukungan teknis dan troubleshooting',
     ],
   },
 ];
+

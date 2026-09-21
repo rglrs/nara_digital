@@ -5,35 +5,35 @@ export const projectsData: Project[] = [
     id: 'vizada',
     slug: 'vizada',
     title: 'Vizada',
-    category: 'Business System / Percetakan',
+    category: 'Business Systems / Percetakan',
     shortDescription:
-      'Platform manajemen operasional digital yang dirancang khusus untuk menyederhanakan proses bisnis percetakan, mulai dari penerimaan pesanan hingga pengiriman akhir.',
+      'Sistem manajemen operasional terpadu untuk bisnis percetakan, menghubungkan alur penerimaan pesanan, kalkulasi biaya cetak, hingga pemantauan status produksi.',
     challenge:
-      'Proses bisnis percetakan konvensional sering menghadapi kendala dalam pelacakan status pesanan, perhitungan estimasi biaya cetak yang lambat, dan koordinasi antardepartemen yang terfragmentasi.',
+      'Proses pemesanan cetak sering terkendala lambatnya estimasi biaya manual, pencatatan pesanan yang tercecer di chat, serta kesulitan melacak status pengerjaan secara akurat.',
     approach:
-      'Merancang sistem operasional terpusat berbasis web yang menghubungkan penerimaan order, estimasi kalkulasi biaya otomatis, alur kerja produksi, dan manajemen relasi pelanggan (CRM).',
+      'Merancang sistem alur kerja terpusat berbasis web yang menyatukan kalkulasi estimasi bahan otomatis, pelacakan proses produksi, dan manajemen database pelanggan.',
     solution:
-      'Aplikasi web terintegrasi yang memberikan transparansi status pesanan secara real-time kepada pelanggan dan efisiensi pelacakan produksi bagi tim operasional.',
+      'Sistem manajemen percetakan terpusat berbasis web dengan kalkulasi biaya otomatis, alur status produksi transparan, dan database pelanggan yang terintegrasi.',
     keyFeatures: [
       {
-        title: 'Penerimaan Pesanan',
-        description: 'Kelola dan lacak setiap pesanan pelanggan dari awal hingga akhir dalam satu alur kerja.',
-      },
-      {
-        title: 'Estimasi Harga Otomatis',
-        description: 'Hitung perkiraan biaya cetak berdasarkan spesifikasi bahan, ukuran, dan jumlah pesanan dengan cepat.',
+        title: 'Kalkulasi Estimasi Biaya Otomatis',
+        description: 'Perhitungan perkiraan biaya cetak berdasarkan spesifikasi bahan, ukuran, dan kuantitas pesanan secara instan.',
       },
       {
         title: 'Pelacakan Status Produksi',
-        description: 'Berikan transparansi status pengerjaan pesanan bagi tim produksi dan pelanggan secara berkala.',
+        description: 'Memantau tahapan pengerjaan mulai dari pracetak, cetak, hingga finishing dan siap kirim secara transparan.',
       },
       {
-        title: 'Katalog Layanan Digital',
-        description: 'Tampilkan detail layanan cetak digital dan offset secara terorganisir dan mudah dipahami.',
+        title: 'Manajemen Antrean Pesanan',
+        description: 'Mengatur alur kerja harian tim produksi agar prioritas pekerjaan tertata rapi dan selesai tepat waktu.',
       },
       {
-        title: 'Manajemen Pelanggan (CRM)',
-        description: 'Simpan dan kelola riwayat pesanan serta data pelanggan untuk membangun hubungan jangka panjang.',
+        title: 'Katalog Layanan & Spesifikasi',
+        description: 'Menyimpan daftar standar produk cetak digital dan offset untuk mempermudah penginputan order.',
+      },
+      {
+        title: 'Database Pelanggan & Riwayat',
+        description: 'Rekam jejak pesanan tersimpan rapi untuk mempermudah pencatatan dan proses pemesanan berulang.',
       },
     ],
     technologies: ['Next.js', 'Prisma', 'Tailwind CSS', 'PostgreSQL'],
@@ -45,35 +45,35 @@ export const projectsData: Project[] = [
     id: 'shaman-os',
     slug: 'shaman-os',
     title: 'Shaman OS',
-    category: 'Enterprise ERP & HR / Business System',
+    category: 'Business Systems / ERP & HR',
     shortDescription:
-      'Platform Enterprise Resource Planning (ERP) dan Human Resource (HR) komprehensif berbasis web untuk mengelola administrasi, data karyawan, dan operasional internal.',
+      'Platform Enterprise Resource Planning (ERP) dan manajemen SDM terpusat untuk membantu perusahaan mengelola data pegawai, penggajian, dan operasional internal.',
     challenge:
-      'Pengelolaan administrasi internal, absensi karyawan, kalkulasi gaji, dan koordinasi dokumen proyek yang terpisah menimbulkan duplikasi data dan risiko kesalahan kalkulasi manual.',
+      'Pengelolaan data karyawan, absensi, kalkulasi gaji, dan administrasi dokumen perusahaan yang terpisah-pisah di berbagai file rawan menimbulkan duplikasi dan kesalahan perhitungan.',
     approach:
-      'Membangun sistem terintegrasi dengan pemisahan frontend yang cepat dan backend berskala enterprise, mengutamakan keamanan data dan keandalan pemrosesan.',
+      'Membangun sistem terintegrasi dengan pemisahan frontend yang cepat dan arsitektur backend aman, mengutamakan keandalan data dan otomasi alur administrasi.',
     solution:
-      'Platform ERP dan HR modern yang menyatukan modul penggajian presisi, manajemen absensi, repositori dokumen aman, dan dasbor proyek terpadu.',
+      'Platform ERP internal yang mengonsolidasikan pencatatan kehadiran, otomasi rincian gaji, manajemen dokumen terpusat, dan dasbor aktivitas proyek dalam satu sistem aman.',
     keyFeatures: [
       {
         title: 'Manajemen Penggajian & Kehadiran',
-        description: 'Sistem terintegrasi untuk melacak data kehadiran karyawan dan mengkalkulasi rincian gaji secara presisi.',
+        description: 'Rekapitulasi absensi otomatis yang terhubung langsung dengan kalkulasi rincian komponen gaji karyawan.',
       },
       {
-        title: 'Dasbor & Manajemen Proyek',
-        description: 'Pusat kendali operasional untuk memantau aktivitas perusahaan serta modul khusus manajemen layanan proyek.',
+        title: 'Dasbor Aktivitas & Operasional',
+        description: 'Ringkasan visual aktivitas perusahaan harian untuk membantu pemantauan dan pengambilan keputusan manajemen.',
       },
       {
-        title: 'Sistem Manajemen Dokumen',
-        description: 'Fasilitas penanganan berkas (file uploads) yang efisien dan terhubung langsung ke penyimpanan server terpusat.',
+        title: 'Penyimpanan Dokumen Terpusat',
+        description: 'Arsip digital berkas perusahaan yang terorganisir dengan sistem penyimpanan server yang aman.',
       },
       {
-        title: 'Keamanan & Autentikasi',
-        description: 'Mengamankan akses pengguna dengan sistem login berbasis enkripsi hash (Bcrypt) untuk melindungi data internal.',
+        title: 'Keamanan Berbasis Peran (Role-Based)',
+        description: 'Pembatasan hak akses data sensitif sesuai departemen dan wewenang pengguna.',
       },
       {
-        title: 'Arsitektur Fullstack Skalalel',
-        description: 'Frontend responsif Next.js didukung backend enterprise NestJS, Prisma ORM, dan infrastruktur Docker.',
+        title: 'Arsitektur Sistem Skalabel',
+        description: 'Dirancang untuk menampung pertumbuhan data operasional dan siap dikembangkan seiring ekspansi bisnis.',
       },
     ],
     technologies: ['Next.js', 'NestJS', 'TypeScript', 'Prisma', 'Docker'],
@@ -84,36 +84,36 @@ export const projectsData: Project[] = [
   {
     id: 'tasca',
     slug: 'tasca',
-    title: 'TASCA (Mobile App & API)',
-    category: 'Mobile Application / Produktivitas & Backend',
+    title: 'TASCA',
+    category: 'Mobile Applications / Produktivitas',
     shortDescription:
-      'Platform manajemen produktivitas harian komprehensif yang terdiri dari aplikasi mobile cross-platform dinamis dan didukung oleh arsitektur backend API yang tangguh serta skalabel.',
+      'Aplikasi mobile produktivitas harian yang memadukan manajemen tugas, pengatur waktu fokus, dan kalender terpadu dengan sinkronisasi backend yang cepat.',
     challenge:
-      'Banyak pengguna kesulitan menjaga fokus belajar atau bekerja ketika daftar tugas terpisah dari pengatur waktu sesi dan jadwal kalender.',
+      'Banyak pengguna dan pekerja mandiri kesulitan menjaga ritme kerja ketika daftar tugas harian terpisah dari jadwal kalender dan alat manajemen waktu.',
     approach:
-      'Mengembangkan aplikasi mobile Flutter dengan antarmuka yang bersih dan interaktif, dipadukan dengan REST API Go (Golang) yang cepat dan berarsitektur berlapis.',
+      'Mengembangkan aplikasi mobile cross-platform yang responsif dengan arsitektur REST API berkinerja tinggi untuk menjaga kecepatan akses dan sinkronisasi data.',
     solution:
-      'Aplikasi mobile produktivitas yang menggabungkan To-Do list, timer Pomodoro, kalender terpadu, notifikasi pengingat, dan penyimpanan data terenkripsi.',
+      'Aplikasi mobile produktivitas yang menggabungkan To-Do list, timer Pomodoro, sinkronisasi kalender, serta notifikasi pengingat yang terhubung ke backend andal.',
     keyFeatures: [
       {
-        title: 'Manajemen Tugas & Waktu',
-        description: 'Fitur To-Do List dan Timer Pomodoro terintegrasi untuk memaksimalkan fokus pengguna dalam menyelesaikan pekerjaan.',
+        title: 'Manajemen Tugas & Prioritas',
+        description: 'Pengelompokan tugas harian dengan tenggat waktu dan status pengerjaan yang jelas.',
       },
       {
-        title: 'Sistem Autentikasi Aman',
-        description: 'Dilengkapi API khusus untuk registrasi dan login guna menjaga keamanan data pengguna secara personal.',
+        title: 'Timer Sesi Fokus (Pomodoro)',
+        description: 'Pengatur waktu terintegrasi untuk membantu fokus menyelesaikan target kerja tanpa distraksi.',
       },
       {
-        title: 'Sistem Notifikasi Terpusat',
-        description: 'Dukungan backend untuk mengelola dan mengirimkan notifikasi aktivitas atau pengingat secara real-time.',
+        title: 'Integrasi Kalender Harian',
+        description: 'Tinjau agenda dan distribusi beban kerja mingguan dalam tampilan yang terstruktur dan nyaman dibaca.',
       },
       {
-        title: 'Integrasi Kalender & Mode Gelap',
-        description: 'Pemantauan jadwal yang mudah dibaca dengan antarmuka yang mendukung Dark Mode untuk kenyamanan mata.',
+        title: 'Notifikasi Pengingat',
+        description: 'Peringatan terjadwal agar aktivitas penting dan tenggat kerja tidak terlewat.',
       },
       {
-        title: 'Arsitektur Backend Skalalel',
-        description: 'Backend dibangun menggunakan arsitektur layered (Controllers, Services, Repositories) dan terintegrasi dengan Docker.',
+        title: 'Sinkronisasi Cepat & Aman',
+        description: 'Backend REST API dengan arsitektur modular untuk memastikan keandalan penyimpanan data pengguna.',
       },
     ],
     technologies: ['Flutter', 'Dart', 'Go (Golang)', 'Docker', 'REST API'],
@@ -127,33 +127,33 @@ export const projectsData: Project[] = [
     title: 'Sibuk Ceria',
     category: 'Education & Counseling / Web Platform',
     shortDescription:
-      'Aplikasi konseling digital untuk sekolah yang memudahkan guru Bimbingan Konseling (BK) dan siswa dalam menjalankan proses bimbingan, konsultasi, serta pengembangan diri.',
+      'Platform bimbingan dan konseling digital untuk sekolah yang memudahkan guru BK dan siswa dalam mengatur jadwal konsultasi, sesi temu, serta materi edukasi mandiri.',
     challenge:
-      'Siswa sering merasa sungkan berkonsultasi langsung di ruang BK sekolah, sementara guru BK membutuhkan sarana terpusat untuk menjadwalkan temu dan mencatat perkembangan siswa.',
+      'Siswa sering merasa ragu atau canggung berkonsultasi langsung di ruang BK fisik, sementara guru BK kesulitan mengatur jadwal temu dan mengarsipkan catatan perkembangan siswa secara rapi.',
     approach:
       'Menghadirkan platform konseling sekolah yang ramah siswa, menjaga kerahasiaan sesi bimbingan, serta menyediakan modul edukasi mandiri yang terstruktur.',
     solution:
-      'Web app konseling dengan sistem booking jadwal otomatis, ruang temu daring (chat/video), modul assessment, dan arsip riwayat bimbingan siswa.',
+      'Platform konseling berbasis web yang menyediakan pemesanan jadwal temu mandiri, ruang konsultasi terenkripsi, modul asesmen, dan arsip riwayat bimbingan yang terstruktur.',
     keyFeatures: [
       {
-        title: 'Dasbor Layanan & Manajemen Siswa',
-        description: 'Pusat kendali bagi guru BK untuk mengelola data siswa, jadwal konseling, dan melacak laporan perkembangan secara terpusat.',
+        title: 'Pemesanan Jadwal Mandiri',
+        description: 'Siswa dapat memilih jadwal konsultasi yang tersedia secara mandiri tanpa perlu antre atau merasa canggung.',
       },
       {
-        title: 'Konseling Jarak Jauh (Chat & Video)',
-        description: 'Fitur komunikasi real-time dan panggilan video yang terintegrasi untuk sesi konsultasi online secara fleksibel.',
+        title: 'Sesi Konsultasi Daring',
+        description: 'Fasilitas komunikasi terintegrasi untuk sesi pendampingan siswa secara aman dan terjaga kerahasiaannya.',
       },
       {
-        title: 'Booking Jadwal Otomatis',
-        description: 'Memungkinkan siswa untuk memesan jadwal konsultasi secara mandiri tanpa perlu antre atau merasa canggung.',
+        title: 'Dasbor Manajemen Guru BK',
+        description: 'Pusat data bagi pengajar untuk mengelola agenda bimbingan dan catatan perkembangan siswa.',
       },
       {
-        title: 'Edukasi Mandiri & Modul Assessment',
-        description: 'Menyediakan materi pengembangan diri, literasi digital, serta sistem bagi guru untuk memberikan evaluasi mandiri.',
+        title: 'Modul Asesmen & Literasi Mandiri',
+        description: 'Menyediakan materi pengembangan diri dan evaluasi mandiri yang mudah diakses siswa kapan saja.',
       },
       {
-        title: 'Catatan Riwayat & Rekomendasi Layanan',
-        description: 'Sistem pencatatan riwayat komprehensif yang didukung rekomendasi layanan otomatis sesuai kebutuhan siswa.',
+        title: 'Pencatatan Riwayat Terstruktur',
+        description: 'Rekam jejak konseling tersimpan rapi untuk bahan evaluasi perkembangan siswa secara berkala.',
       },
     ],
     technologies: ['Laravel', 'Tailwind CSS', 'Livewire', 'Alpine.js'],
@@ -167,33 +167,33 @@ export const projectsData: Project[] = [
     title: 'Tahfizh App',
     category: 'Education / Management System',
     shortDescription:
-      'Platform manajemen program tahfizh berbasis web yang memudahkan pencatatan, pemantauan progres hafalan, serta evaluasi siswa secara digital dan terstruktur.',
+      'Sistem informasi pencatatan dan pemantauan hafalan santri/siswa secara terstruktur untuk lembaga pendidikan dan rumah tahfizh.',
     challenge:
-      'Pencatatan hafalan menggunakan buku fisik rentan rusak atau hilang, dan menyulitkan wali santri memantau perkembangan hafalan harian secara praktis.',
+      'Pencatatan setoran hafalan menggunakan buku manual rentan rusak atau hilang, dan menyulitkan pihak pengelola serta orang tua memantau capaian santri secara real-time.',
     approach:
       'Membangun portal web multi-peran dengan navigasi sederhana untuk memudahkan ustadz mencatat setoran dan orang tua melihat laporan capaian.',
     solution:
-      'Sistem pencatatan setoran hafalan dan murojaah berbasis web dengan hak akses bertingkat, rekapitulasi data siswa, dan antarmuka responsif.',
+      'Aplikasi web manajemen tahfizh dengan akses multi-peran, rekapitulasi setoran harian dan murojaah, serta laporan progres santri yang transparan.',
     keyFeatures: [
       {
-        title: 'Pencatatan Hafalan & Murojaah',
-        description: 'Lacak progres setoran hafalan harian dan pengulangan (murojaah) siswa dengan cepat dan akurat.',
+        title: 'Pencatatan Setoran & Murojaah',
+        description: 'Input cepat capaian ayat, surat, dan juz santri setiap selesai sesi bimbingan harian.',
       },
       {
-        title: 'Sistem Multi-Peran (Role-Based)',
-        description: 'Hak akses yang disesuaikan untuk Admin, Pengajar, dan Siswa/Wali untuk pengelolaan yang tertib.',
+        title: 'Akses Multi-Peran',
+        description: 'Hak akses khusus untuk pengelola lembaga, guru pembimbing, dan orang tua santri.',
       },
       {
-        title: 'Manajemen Data Siswa',
-        description: 'Kelola informasi profil, capaian juz, dan riwayat akademik siswa tahfizh dalam satu dasbor.',
+        title: 'Laporan Progres Santri',
+        description: 'Riwayat capaian santri tersaji dalam tampilan ringkas dan mudah dipahami orang tua.',
       },
       {
-        title: 'Sistem Autentikasi Aman',
-        description: 'Dilengkapi sistem login berbasis sesi/token dan perlindungan middleware untuk menjaga privasi data.',
+        title: 'Manajemen Data Santri & Kelas',
+        description: 'Pengelompokan santri berdasarkan rombel atau tingkatan capaian hafalan.',
       },
       {
         title: 'Antarmuka Responsif',
-        description: 'Desain UI/UX modern yang mudah digunakan baik melalui smartphone maupun komputer desktop.',
+        description: 'Desain web yang nyaman digunakan pembimbing langsung dari ponsel di ruang halaqah.',
       },
     ],
     technologies: ['Next.js', 'TypeScript', 'Prisma', 'Tailwind CSS'],
@@ -205,31 +205,31 @@ export const projectsData: Project[] = [
     id: 'mental-health-monitor',
     slug: 'mental-health-monitor',
     title: 'Mental Health Monitor',
-    category: 'Health Tech / Web Application Concept',
+    category: 'Healthcare / Web Application',
     shortDescription:
-      'Aplikasi web yang dirancang untuk membantu pengguna melacak dan memantau kondisi kesejahteraan mental mereka melalui sistem evaluasi berbasis data.',
+      'Purwarupa aplikasi evaluasi diri berbasis web untuk membantu pengguna mencatat dan memantau pola suasana hati serta tingkat stres secara berkala.',
     challenge:
-      'Masyarakat sering kesulitan merefleksikan suasana hati dan tingkat stres harian tanpa adanya alat bantu evaluasi mandiri yang terstruktur.',
+      'Pengguna sering kali tidak menyadari pola fluktuasi suasana hati dan pemicu stres harian tanpa adanya alat bantu pencatatan berkala yang mudah diakses.',
     approach:
-      'Merancang purwarupa platform web yang menyajikan kuesioner evaluasi diri berkala dan visualisasi riwayat skor secara informatif (konsep perangkat lunak, bukan diagnosa medis).',
+      'Merancang antarmuka web evaluasi mandiri dengan pengolahan dataset terstruktur dan visualisasi riwayat yang informatif.',
     solution:
-      'Aplikasi web evaluasi mandiri dengan pengolahan dataset terstruktur, visualisasi riwayat perkembangan kondisi, dan pemisahan arsitektur client-server.',
+      'Aplikasi web evaluasi mandiri dengan antarmuka bersih, visualisasi tren perkembangan kondisi, dan pengolahan data terstruktur.',
     keyFeatures: [
       {
-        title: 'Pemantauan & Evaluasi',
-        description: 'Pengguna dapat melakukan pencatatan dan evaluasi berkala terkait kondisi kesejahteraan emosional harian.',
+        title: 'Kuesioner Evaluasi Berkala',
+        description: 'Instrumen refleksi diri yang terstruktur dan dapat diisi dengan cepat setiap hari.',
       },
       {
-        title: 'Dasbor Profil & Hasil',
-        description: 'Halaman khusus bagi pengguna untuk mengelola profil dan melihat riwayat hasil evaluasi sebelumnya dengan jelas.',
+        title: 'Visualisasi Tren Riwayat',
+        description: 'Grafik ringkas untuk melihat pola perkembangan suasana hati dari waktu ke waktu.',
       },
       {
-        title: 'Pengolahan Dataset',
-        description: 'Terintegrasi dengan sistem backend untuk mengelola dataset evaluasi dan menghasilkan ringkasan visual yang informatif.',
+        title: 'Pengelolaan Data Mandiri',
+        description: 'Riwayat evaluasi tersimpan rapi untuk ditinjau kembali oleh pengguna.',
       },
       {
-        title: 'Arsitektur Client-Server',
-        description: 'Dibangun menggunakan pemisahan frontend dan backend yang terstruktur untuk memastikan performa aplikasi yang optimal.',
+        title: 'Arsitektur Klien-Server Ringan',
+        description: 'Pemisahan antarmuka pengguna dan pengolahan backend untuk menjaga kecepatan akses.',
       },
     ],
     technologies: ['JavaScript', 'Python', 'CSS', 'Web App'],
@@ -238,3 +238,4 @@ export const projectsData: Project[] = [
     type: 'web-app',
   },
 ];
+

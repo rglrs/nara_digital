@@ -3,27 +3,27 @@ import { Target, MessageSquareCheck, TrendingUp, ShieldCheck } from 'lucide-reac
 
 const principles = [
   {
-    title: 'Dibangun Sesuai Kebutuhan',
+    title: 'Built Around Your Needs',
     description:
-      'Kami merancang arsitektur dan antarmuka berdasarkan alur kerja bisnis Anda yang sebenarnya, bukan memaksakan template kaku yang tidak relevan.',
+      'Kami membangun solusi berdasarkan kebutuhan nyata bisnis, bukan memaksakan satu template untuk semua.',
     icon: <Target className="w-5 h-5 text-[var(--accent)]" />,
   },
   {
-    title: 'Komunikasi Jelas & Terbuka',
+    title: 'Clear Communication',
     description:
-      'Perkembangan proyek, ruang lingkup pengerjaan, dan prioritas fitur selalu dipaparkan secara transparan dengan bahasa yang lugas dan mudah dipahami.',
+      'Proses, prioritas, dan perkembangan project dikomunikasikan dengan jelas.',
     icon: <MessageSquareCheck className="w-5 h-5 text-[var(--accent)]" />,
   },
   {
-    title: 'Fondasi Sistem yang Skalabel',
+    title: 'Scalable Foundations',
     description:
-      'Kode program yang bersih, modular, dan basis data terstruktur memastikan perangkat lunak siap menampung lonjakan data dan pengguna di masa depan.',
+      'Sistem dirancang agar dapat dikembangkan seiring pertumbuhan kebutuhan bisnis.',
     icon: <TrendingUp className="w-5 h-5 text-[var(--accent)]" />,
   },
   {
-    title: 'Dukungan Jangka Panjang',
+    title: 'Long-Term Support',
     description:
-      'Kerja sama kami tidak berhenti saat aplikasi dirilis. Kami mendampingi pemeliharaan server, pembaruan keamanan, dan pengembangan fitur lanjutan.',
+      'Kami tetap dapat membantu setelah project selesai melalui maintenance dan pengembangan lanjutan.',
     icon: <ShieldCheck className="w-5 h-5 text-[var(--accent)]" />,
   },
 ];

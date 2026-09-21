@@ -9,23 +9,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'NARA | Solusi Digital, Dibangun untuk Bisnis Anda',
+  title: 'NARA Digital — Solusi Digital untuk Bisnis',
   description:
-    'NARA adalah studio pengembangan digital yang membantu bisnis mengubah proses manual, ide, dan kendala operasional menjadi solusi web, sistem manajemen internal, dan aplikasi mobile yang sederhana dan skalabel.',
+    'NARA membantu bisnis dan organisasi membangun website, business systems, mobile applications, dan solusi digital yang dibuat sesuai kebutuhan.',
   keywords: [
-    'NARA Studio',
+    'NARA Digital',
     'Digital Development Studio',
-    'Sistem Informasi Bisnis',
-    'Aplikasi Web Kustom',
+    'Solusi Digital Bisnis',
+    'Business Systems',
+    'Website Bisnis',
     'Aplikasi Mobile',
-    'ERP Kustom',
+    'Custom Software',
     'Pengembangan Web Indonesia',
   ],
   authors: [{ name: 'NARA Digital Studio' }],
   openGraph: {
-    title: 'NARA | Solusi Digital, Dibangun untuk Bisnis Anda',
+    title: 'NARA Digital — Solusi Digital untuk Bisnis',
     description:
-      'Studio pengembangan digital yang berfokus pada solusi praktis untuk bisnis dan organisasi yang sedang berkembang.',
+      'NARA membantu bisnis dan organisasi membangun website, business systems, mobile applications, dan solusi digital yang dibuat sesuai kebutuhan.',
     type: 'website',
     locale: 'id_ID',
   },

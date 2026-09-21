@@ -20,7 +20,7 @@ export default function TrustSection() {
           </div>
 
           {/* Right Metrics Grid */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {studioConfig.metrics.map((metric, idx) => (
               <div
                 key={idx}

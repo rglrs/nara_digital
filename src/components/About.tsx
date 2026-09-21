@@ -17,25 +17,25 @@ export default function About() {
               TENTANG NARA
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
-              Tim independen yang fokus membangun solusi digital praktis.
+              Tim kecil, solusi yang dibuat dengan serius.
             </h2>
             <div className="space-y-4 text-base text-[var(--text-secondary)] leading-relaxed">
               <p>
-                NARA adalah studio pengembangan digital yang didirikan oleh dua pengembang perangkat lunak yang meyakini bahwa teknologi harus berorientasi pada kemudahan pakai, fungsionalitas murni, dan kebutuhan operasional nyata.
+                NARA adalah digital development studio yang berfokus pada pembangunan solusi digital praktis untuk bisnis dan organisasi.
               </p>
               <p>
-                Kami memadukan rekayasa sistem terstruktur, pemikiran produk menyeluruh, dan desain yang berpusat pada kenyamanan pengguna untuk menghasilkan website bisnis, sistem operasional internal, dan aplikasi mobile yang andal bagi bisnis serta organisasi yang sedang berkembang.
+                Kami menggabungkan product thinking, desain, dan software development untuk mengubah kebutuhan nyata menjadi website, business systems, dan digital products yang dapat digunakan dan dikembangkan.
               </p>
             </div>
 
             <div className="pt-2 border-t border-[var(--border-subtle)] grid grid-cols-2 gap-4 text-xs">
               <div className="p-3.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
                 <div className="font-bold text-[var(--text-primary)]">Pendekatan Studio</div>
-                <div className="text-[var(--text-muted)] mt-0.5">Fokus pada penyelesaian kendala, bukan sekadar penulisan kode.</div>
+                <div className="text-[var(--text-muted)] mt-0.5">Fokus pada penyelesaian kendala operasional, bukan sekadar menulis kode.</div>
               </div>
               <div className="p-3.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
-                <div className="font-bold text-[var(--text-primary)]">Kolaborasi Langsung</div>
-                <div className="text-[var(--text-muted)] mt-0.5">Komunikasi langsung dengan pengembang inti tanpa birokrasi berbelit.</div>
+                <div className="font-bold text-[var(--text-primary)]">Kolaborasi Terarah</div>
+                <div className="text-[var(--text-muted)] mt-0.5">Komunikasi terstruktur langsung dengan pengembang solusi Anda.</div>
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ export default function Footer() {
   const navLinks = [
     { name: 'Beranda', href: '#hero' },
     { name: 'Layanan', href: '#services' },
+    { name: 'Solusi', href: '#solutions' },
     { name: 'Proyek', href: '#projects' },
     { name: 'Cara Kerja', href: '#process' },
     { name: 'Tentang', href: '#about' },
