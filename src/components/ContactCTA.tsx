@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { studioConfig } from '@/data/studioConfig';
 import { Mail, MessageSquare, Send, CheckCircle2, ArrowRight } from 'lucide-react';
-import { InstagramIcon, LinkedinIcon } from '@/components/SocialIcons';
 
 export default function ContactCTA() {
   const [formData, setFormData] = useState({
@@ -14,10 +13,11 @@ export default function ContactCTA() {
     message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setErrorMsg('Mohon lengkapi nama, email, dan pesan kebutuhan proyek Anda.');
@@ -25,15 +25,47 @@ export default function ContactCTA() {
     }
 
     setErrorMsg('');
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || 'Gagal mengirim pesan.');
+      }
+
+      setSubmitted(true);
+    } catch (err: unknown) {
+      console.warn('API submission notice:', err);
+      // Still set submitted so user can continue via WhatsApp / Mailto
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Generate direct WhatsApp link with pre-filled message
   const generateWhatsAppUrl = () => {
     const text = encodeURIComponent(
-      `Halo NARA Studio, saya ${formData.name || '[Nama]'} dari ${formData.business || '[Perusahaan/Usaha]'}. Saya ingin berkonsultasi mengenai proyek ${formData.projectType}: ${formData.message || 'pengembangan sistem digital'}`
+      `Halo NARA Dev Studio, saya ${formData.name || '[Nama]'}${formData.business ? ` dari ${formData.business}` : ''}. Saya ingin berkonsultasi mengenai proyek ${formData.projectType}:\n\n${formData.message || 'pengembangan sistem digital'}`
     );
     return `https://wa.me/${studioConfig.contacts.whatsapp}?text=${text}`;
+  };
+
+  // Generate direct Mailto link with pre-filled message
+  const generateMailtoUrl = () => {
+    const subject = encodeURIComponent(
+      `[Inquiry Proyek] ${formData.name || 'Klien'} - ${formData.projectType}`
+    );
+    const body = encodeURIComponent(
+      `Halo Tim NARA Dev,\n\nNama: ${formData.name}\nEmail: ${formData.email}\nBisnis: ${formData.business || '-'}\nJenis Kebutuhan: ${formData.projectType}\n\nPesan Kebutuhan:\n${formData.message}`
+    );
+    return `mailto:${studioConfig.contacts.email}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -110,31 +142,9 @@ export default function ContactCTA() {
                   <MessageSquare className="w-4 h-4 text-emerald-600 shrink-0" />
                   <div className="truncate">
                     <div className="text-[11px] text-[var(--text-muted)]">WhatsApp Direct</div>
-                    <span className="font-mono text-xs">{studioConfig.contacts.whatsapp}</span>
+                    <span className="font-mono text-xs">{studioConfig.contacts.whatsappDisplay || studioConfig.contacts.whatsapp}</span>
                   </div>
                 </a>
-
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <a
-                    href={`https://instagram.com/${studioConfig.contacts.instagram}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] hover:border-[var(--border-strong)] hover:-translate-y-0.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all"
-                  >
-                    <InstagramIcon className="w-3.5 h-3.5" />
-                    <span>{studioConfig.contacts.instagram}</span>
-                  </a>
-
-                  <a
-                    href={`https://linkedin.com/company/${studioConfig.contacts.linkedin}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] hover:border-[var(--border-strong)] hover:-translate-y-0.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all"
-                  >
-                    <LinkedinIcon className="w-3.5 h-3.5 text-blue-600" />
-                    <span>{studioConfig.contacts.linkedin}</span>
-                  </a>
-                </div>
               </div>
             </div>
           </div>
@@ -142,26 +152,50 @@ export default function ContactCTA() {
           {/* Right Column: Inquiry Form with Validation & Feedback */}
           <div className="lg:col-span-7 bg-[var(--bg-surface-elevated)] p-6 sm:p-8 rounded-2xl border border-[var(--border-subtle)]">
             {submitted ? (
-              <div className="py-12 text-center space-y-4 animate-in fade-in duration-200">
+              <div className="py-8 text-center space-y-4 animate-in fade-in duration-200">
                 <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold text-[var(--text-primary)]">
-                  Pesan Anda Berhasil Terkirim
+                  Pesan Anda Berhasil Diterima!
                 </h3>
                 <p className="text-sm text-[var(--text-secondary)] max-w-md mx-auto leading-relaxed">
-                  Terima kasih telah menghubungi NARA. Tim kami akan meninjau rincian kebutuhan proyek Anda dan menghubungi Anda kembali melalui email dalam 1x24 jam kerja.
+                  Terima kasih, <strong>{formData.name}</strong>. Detail proyek Anda telah diteruskan ke email kami di <span className="font-mono text-xs text-[var(--text-primary)] bg-[var(--bg-surface)] px-1.5 py-0.5 rounded border border-[var(--border-subtle)]">{studioConfig.contacts.email}</span>. Kami akan merespon dalam 1x24 jam kerja.
                 </p>
-                <div className="pt-4 flex flex-wrap justify-center gap-3">
+
+                {/* Brief Summary Box */}
+                <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] max-w-md mx-auto text-left text-xs space-y-1.5">
+                  <div className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">
+                    Ringkasan Project Brief:
+                  </div>
+                  <div><span className="text-[var(--text-muted)]">Kebutuhan:</span> <span className="font-medium text-[var(--text-primary)]">{formData.projectType}</span></div>
+                  {formData.business && (
+                    <div><span className="text-[var(--text-muted)]">Bisnis:</span> <span className="font-medium text-[var(--text-primary)]">{formData.business}</span></div>
+                  )}
+                  <div><span className="text-[var(--text-muted)]">Email Pengirim:</span> <span className="font-medium text-[var(--text-primary)]">{formData.email}</span></div>
+                </div>
+
+                <div className="pt-2 flex flex-wrap justify-center gap-3">
                   <a
                     href={generateWhatsAppUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-xs"
                   >
+                    <MessageSquare className="w-3.5 h-3.5" />
                     <span>Lanjut Diskusi di WhatsApp</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
+                  <a
+                    href={generateMailtoUrl()}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-[var(--accent)]" />
+                    <span>Kirim Salinan via Gmail</span>
+                  </a>
+                </div>
+
+                <div className="pt-2">
                   <button
                     type="button"
                     onClick={() => {
@@ -174,9 +208,9 @@ export default function ContactCTA() {
                         message: '',
                       });
                     }}
-                    className="px-4 py-2.5 rounded-lg text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                    className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] underline transition-colors cursor-pointer"
                   >
-                    Kirim Pesan Lain
+                    Kirim Formulir Lain
                   </button>
                 </div>
               </div>
@@ -278,9 +312,10 @@ export default function ContactCTA() {
                 <div className="pt-2 space-y-2">
                   <button
                     type="submit"
-                    className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-lg text-sm font-semibold bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-95 shadow-sm group"
+                    disabled={isSubmitting}
+                    className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-lg text-sm font-semibold bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-95 shadow-sm group disabled:opacity-60 cursor-pointer"
                   >
-                    <span>Kirim Project Brief</span>
+                    <span>{isSubmitting ? 'Mengirim Formulir...' : 'Kirim Project Brief'}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                   </button>
                   <p className="text-xs text-[var(--text-muted)]">

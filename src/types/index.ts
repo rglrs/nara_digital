@@ -51,14 +51,17 @@ export interface MetricItem {
 
 export interface StudioConfig {
   studioName: string;
+  shortName?: string;
+  logoImage?: string;
   tagline: string;
   eyebrow: string;
   subheadline: string;
   contacts: {
     whatsapp: string;
+    whatsappDisplay?: string;
     email: string;
-    instagram: string;
-    linkedin: string;
+    instagram?: string;
+    linkedin?: string;
   };
   metrics: MetricItem[];
   founders: Founder[];

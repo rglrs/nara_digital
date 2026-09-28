@@ -9,7 +9,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden"
-      aria-label="Pengenalan NARA Studio"
+      aria-label="Pengenalan NARA Dev Digital Product Studio"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">

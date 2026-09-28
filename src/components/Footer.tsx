@@ -1,7 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
 import { studioConfig } from '@/data/studioConfig';
 import { Mail, MessageSquare, ArrowUp } from 'lucide-react';
-import { InstagramIcon, LinkedinIcon } from '@/components/SocialIcons';
 
 export default function Footer() {
   const navLinks = [
@@ -18,51 +18,52 @@ export default function Footer() {
   return (
     <footer
       className="border-t border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)] py-14"
-      aria-label="Informasi Penutup NARA Studio"
+      aria-label="Informasi Penutup NARA Dev Digital Product Studio"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-[var(--border-subtle)]">
           {/* Brand Info */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-2xl tracking-tight text-[var(--text-primary)]">
-                {studioConfig.studioName}
-              </span>
+          <div className="space-y-3">
+            <div className="flex items-center">
+              {/* Logo untuk Light Mode (huruf & ikon gelap) */}
+              <Image
+                src="/images/LogoNara1.png"
+                alt="NARA Dev Digital Product Studio"
+                width={190}
+                height={40}
+                className="h-9 sm:h-10 w-auto object-contain logo-theme-light"
+              />
+              {/* Logo untuk Dark Mode (huruf & ikon putih terang) */}
+              <Image
+                src="/images/LogoNara1-dark.png"
+                alt="NARA Dev Digital Product Studio"
+                width={190}
+                height={40}
+                className="h-9 sm:h-10 w-auto object-contain logo-theme-dark"
+              />
             </div>
-            <p className="text-sm text-[var(--text-secondary)]">
+            <p className="text-sm text-[var(--text-secondary)] max-w-sm">
               {studioConfig.tagline}
             </p>
           </div>
 
-          {/* Social Channels */}
+          {/* Social Channels (Email & WhatsApp) */}
           <div className="flex items-center gap-3">
             <a
               href={`mailto:${studioConfig.contacts.email}`}
-              aria-label="Hubungi NARA via Email"
+              aria-label="Hubungi NARA Dev via Email"
               className="p-2.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 transition-all"
             >
               <Mail className="w-4 h-4" />
             </a>
             <a
               href={`https://wa.me/${studioConfig.contacts.whatsapp}`}
-              aria-label="Hubungi NARA via WhatsApp"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Hubungi NARA Dev via WhatsApp"
               className="p-2.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-emerald-600 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 transition-all"
             >
               <MessageSquare className="w-4 h-4" />
-            </a>
-            <a
-              href={`https://instagram.com/${studioConfig.contacts.instagram}`}
-              aria-label="Kunjungi Instagram NARA"
-              className="p-2.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 transition-all"
-            >
-              <InstagramIcon className="w-4 h-4" />
-            </a>
-            <a
-              href={`https://linkedin.com/company/${studioConfig.contacts.linkedin}`}
-              aria-label="Kunjungi LinkedIn NARA"
-              className="p-2.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-blue-600 hover:border-blue-300 hover:-translate-y-0.5 hover:shadow-xs active:translate-y-0 active:scale-95 transition-all"
-            >
-              <LinkedinIcon className="w-4 h-4" />
             </a>
           </div>
         </div>

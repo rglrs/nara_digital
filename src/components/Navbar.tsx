@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Menu, X, Sun, Moon, ArrowRight } from 'lucide-react';
 import { studioConfig } from '@/data/studioConfig';
 
@@ -64,18 +65,30 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo / Wordmark */}
+          {/* Brand Logo */}
           <a
             href="#hero"
-            className="flex items-center gap-2.5 group transition-transform focus:outline-hidden"
-            aria-label="NARA Digital Development Studio - Ke Halaman Utama"
+            className="flex items-center gap-2 group transition-transform focus:outline-hidden"
+            aria-label="NARA Dev Digital Product Studio - Ke Halaman Utama"
           >
-            <span className="font-bold text-2xl tracking-tight text-[var(--text-primary)]">
-              {studioConfig.studioName}
-            </span>
-            <span className="text-xs tracking-wider uppercase font-semibold text-[var(--text-muted)] border-l border-[var(--border-subtle)] pl-2.5 hidden sm:inline-block">
-              Studio
-            </span>
+            {/* Logo untuk Light Mode (huruf & ikon gelap) */}
+            <Image
+              src="/images/LogoNara1.png"
+              alt="NARA Dev Digital Product Studio"
+              width={185}
+              height={38}
+              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-[1.02] logo-theme-light"
+              priority
+            />
+            {/* Logo untuk Dark Mode (huruf & ikon putih terang) */}
+            <Image
+              src="/images/LogoNara1-dark.png"
+              alt="NARA Dev Digital Product Studio"
+              width={185}
+              height={38}
+              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-[1.02] logo-theme-dark"
+              priority
+            />
           </a>
 
           {/* Desktop Navigation */}

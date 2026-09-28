@@ -7,21 +7,21 @@ export default function About() {
     <section
       id="about"
       className="py-24 border-t border-[var(--border-subtle)] bg-[var(--bg-surface-elevated)]"
-      aria-label="Tentang Studio NARA"
+      aria-label="Tentang NARA Dev Digital Product Studio"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Narrative */}
           <div className="lg:col-span-7 space-y-6 reveal">
             <div className="text-xs font-bold tracking-wider text-[var(--accent)] uppercase">
-              TENTANG NARA
+              TENTANG NARA DEV
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
               Tim kecil, solusi yang dibuat dengan serius.
             </h2>
             <div className="space-y-4 text-base text-[var(--text-secondary)] leading-relaxed">
               <p>
-                NARA adalah digital development studio yang berfokus pada pembangunan solusi digital praktis untuk bisnis dan organisasi.
+                NARA Dev adalah digital product studio yang berfokus pada pembangunan solusi digital praktis untuk bisnis dan organisasi.
               </p>
               <p>
                 Kami menggabungkan product thinking, desain, dan software development untuk mengubah kebutuhan nyata menjadi website, business systems, dan digital products yang dapat digunakan dan dikembangkan.

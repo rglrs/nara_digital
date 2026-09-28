@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --bg-primary: #f8fafc;
@@ -56,6 +58,21 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
+}
+
+/* Explicit Logo Theme Switching */
+.logo-theme-light {
+  display: inline-block;
+}
+.logo-theme-dark {
+  display: none !important;
+}
+
+.dark .logo-theme-light {
+  display: none !important;
+}
+.dark .logo-theme-dark {
+  display: inline-block !important;
 }
 
 /* Glass & elevation tokens used deliberately as accents (R-10, R-12) */

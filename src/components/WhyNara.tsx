@@ -32,7 +32,7 @@ export default function WhyNara() {
   return (
     <section
       className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-      aria-label="Prinsip Kerja NARA Studio"
+      aria-label="Prinsip Kerja NARA Dev"
     >
       <div className="max-w-2xl mb-16 reveal">
         <div className="text-xs font-bold tracking-wider text-[var(--accent)] uppercase mb-2">

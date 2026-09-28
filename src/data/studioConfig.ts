@@ -1,16 +1,17 @@
 import { StudioConfig } from '@/types';
 
 export const studioConfig: StudioConfig = {
-  studioName: 'NARA',
+  studioName: 'NARA Dev Digital Product Studio',
+  shortName: 'NARA Dev',
+  logoImage: '/images/IconNara.png',
   tagline: 'Solusi digital, dibangun untuk bisnis Anda.',
-  eyebrow: 'DIGITAL DEVELOPMENT STUDIO',
+  eyebrow: 'DIGITAL PRODUCT STUDIO',
   subheadline:
     'Kami membantu bisnis mengubah proses manual, kebutuhan operasional, dan ide menjadi solusi digital yang lebih sederhana, terstruktur, dan siap berkembang.',
   contacts: {
-    whatsapp: '[WHATSAPP_NUMBER]',
-    email: '[EMAIL]',
-    instagram: '[INSTAGRAM]',
-    linkedin: '[LINKEDIN]',
+    whatsapp: '6285602743489',
+    whatsappDisplay: '+62 856-0274-3489',
+    email: 'naradigital.creative@gmail.com',
   },
   metrics: [
     {
