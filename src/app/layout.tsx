@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     siteName: 'NARA Dev Digital Product Studio',
     images: [
       {
-        url: '/images/LogoNara1.png',
-        width: 1200,
-        height: 630,
-        alt: 'NARA Dev Digital Product Studio',
+        url: '/images/IconNara.png',
+        width: 800,
+        height: 800,
+        alt: 'NARA Dev Digital Product Studio Icon',
       },
     ],
     type: 'website',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     title: 'NARA Dev Digital Product Studio — Solusi Digital untuk Bisnis',
     description:
       'Solusi digital, dibangun untuk bisnis Anda. Jasa pembuatan website bisnis, sistem operasional, dan aplikasi mobile.',
-    images: ['/images/LogoNara1.png'],
+    images: ['/images/IconNara.png'],
   },
   robots: {
     index: true,
@@ -83,7 +83,7 @@ const jsonLd = {
   name: 'NARA Dev Digital Product Studio',
   url: siteUrl,
   logo: `${siteUrl}/images/IconNara.png`,
-  image: `${siteUrl}/images/LogoNara1.png`,
+  image: `${siteUrl}/images/IconNara.png`,
   description:
     'Digital product studio yang berfokus pada pembangunan solusi digital praktis untuk bisnis dan organisasi: website bisnis, business systems, dan aplikasi mobile.',
   telephone: '+6285602743489',
