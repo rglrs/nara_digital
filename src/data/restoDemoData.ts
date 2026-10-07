@@ -51,10 +51,11 @@ export const malioboroRestoData: RestoConfig = {
   googleRating: '4.8',
   reviewCount: '1.200+',
   facilities: [
-    { title: 'Area Luas & Nyaman', desc: 'Cocok untuk makan bersama keluarga besar & rombongan kantor.', icon: 'Users' },
-    { title: 'Parkir Luas', desc: 'Kapasitas parkir mobil dan motor aman dan leluasa.', icon: 'Car' },
-    { title: 'Ikan Hidup Segar', desc: 'Pilihan ikan segar ditimbang hidup untuk jaminan rasa manis gurih.', icon: 'Fish' },
-    { title: 'Musholla & VIP Room', desc: 'Tersedia musholla bersih dan ruang ber-AC untuk meeting khusus.', icon: 'Sparkles' },
+    { title: 'Bakar Arang Tradisional', desc: 'Aroma rempah asap khas nusantara dengan racikan bumbu khas Malioboro.', icon: 'Flame' },
+    { title: 'Ikan Hidup Segar', desc: 'Pilihan ikan segar ditimbang hidup untuk jaminan rasa manis gurih alami.', icon: 'Fish' },
+    { title: 'Area Luas & Nyaman', desc: 'Cocok untuk makan bersama keluarga besar, arisan, & rombongan kantor.', icon: 'Users' },
+    { title: 'Musholla & VIP AC Room', desc: 'Tersedia musholla bersih dan ruang privat ber-AC untuk acara khusus.', icon: 'CheckCircle2' },
+    { title: 'Parkir Luas & Aman', desc: 'Kapasitas parkir mobil dan motor aman dan leluasa di lokasi resto.', icon: 'Car' },
   ],
   categories: [
     { id: 'all', name: '🔥 Semua Menu' },
