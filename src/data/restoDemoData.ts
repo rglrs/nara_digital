@@ -38,7 +38,7 @@ export const malioboroRestoData: RestoConfig = {
   shortName: 'Ikan Bakar Malioboro',
   tagline: 'Sensasi Ikan Bakar Rempah & Seafood Khas Nusantara',
   badgeText: 'Restoran Keluarga & Seafood Favorit Surabaya Barat',
-  establishedYear: '2021',
+  establishedYear: '2023',
   address: 'Jl. Raya Kupang Baru No. 24, Sonokwijenan, Kec. Sukomanunggal, Surabaya, Jawa Timur 60189',
   city: 'Surabaya Barat',
   openingHours: 'Buka Setiap Hari: 11.00 – 22.00 WIB',
