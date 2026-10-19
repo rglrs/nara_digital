@@ -53,6 +53,7 @@ export const defaultCateringConfig = {
   reviewCount: '850+ Ulasan',
   heroImage: '/images/demo/wedding-buffet-hero.jpg',
   zuppaImage: '/images/demo/wedding-zuppa-soup.jpg',
+  kambingImage: '/images/demo/wedding-kambing-guling.jpg',
   dessertImage: '/images/demo/wedding-dessert-bar.jpg',
 };
 
@@ -187,7 +188,7 @@ export const stallHighlights: StallItem[] = [
     name: 'Kambing Guling Rempah Arab',
     category: 'favorite',
     description: 'Daging kambing muda dipanggang arang empuk tanpa bau prengus, disajikan bersama lontong & kecap pedas gurih.',
-    image: '/images/demo/wedding-zuppa-soup.jpg',
+    image: '/images/demo/wedding-kambing-guling.jpg',
     tag: 'Live Carving Show'
   },
   {
