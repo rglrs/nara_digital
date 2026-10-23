@@ -44,4 +44,10 @@ next-env.d.ts
 *.csv
 *.xlsx
 ~$*
+leads*
+
+# private automation & scraper scripts
+scripts/
+*.py
+
 
