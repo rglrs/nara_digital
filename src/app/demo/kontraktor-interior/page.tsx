@@ -28,7 +28,9 @@ import {
   Compass,
   HardHat,
   Layers,
-  ArrowRight
+  ArrowRight,
+  Menu,
+  X
 } from 'lucide-react';
 
 function formatRupiah(num: number): string {
@@ -148,6 +150,9 @@ function ContractorShowcaseContent() {
     notes: ''
   });
 
+  // Mobile Menu State
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   // WA Handlers
   const handleConsultWa = (topic?: string) => {
     const text = topic
@@ -216,48 +221,144 @@ function ContractorShowcaseContent() {
 
       {/* 2. MAIN NAVBAR (ARCHITECTURAL CLEAN BLUEPRINT STYLE) */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
           
           {/* Logo & Brand Identity */}
-          <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-lg bg-[#0B1A4A] text-white flex items-center justify-center font-bold text-xl shadow-md border border-blue-900">
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-[#0B1A4A] text-white flex items-center justify-center font-bold text-xl shadow-md border border-blue-900 shrink-0">
               <Compass className="w-6 h-6 text-[#2FB6EF]" />
             </div>
-            <div>
-              <span className="font-bold text-lg text-[#0B1A4A] tracking-tight block leading-tight">
+            <div className="min-w-0">
+              <span className="font-extrabold text-base sm:text-lg text-[#0B1A4A] tracking-tight block leading-tight truncate">
                 {brandName}
               </span>
-              <span className="text-[11px] text-slate-500 font-medium tracking-wide flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-[#1E3FE0]" />
+              <span className="text-[11px] text-slate-500 font-medium tracking-wide flex items-center gap-1 whitespace-nowrap">
+                <MapPin className="w-3 h-3 text-[#1E3FE0] shrink-0" />
                 Jasa Bangun, Renovasi & Arsitek Sidoarjo
               </span>
             </div>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-600">
-            <a href="#keunggulan" className="hover:text-[#1E3FE0] transition-colors">Standar Kualitas</a>
-            <a href="#layanan" className="hover:text-[#1E3FE0] transition-colors">Layanan</a>
-            <a href="#kalkulator" className="text-[#1E3FE0] hover:text-[#0B1A4A] transition-colors flex items-center gap-1.5 font-bold">
-              <Calculator className="w-4 h-4 text-[#1E3FE0]" />
-              Kalkulator Biaya (RAB)
+          {/* Desktop Nav - Clean, Uncrowded, Zero Wrapping */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-slate-700">
+            <a 
+              href="#keunggulan" 
+              className="whitespace-nowrap hover:text-[#1E3FE0] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1E3FE0] hover:after:w-full after:transition-all after:duration-200"
+            >
+              Kenapa Kami
             </a>
-            <a href="#proses" className="hover:text-[#1E3FE0] transition-colors">Tahapan Kerja</a>
-            <a href="#proyek" className="hover:text-[#1E3FE0] transition-colors">Portofolio</a>
-            <a href="#testimoni" className="hover:text-[#1E3FE0] transition-colors">Testimoni</a>
+            <a 
+              href="#layanan" 
+              className="whitespace-nowrap hover:text-[#1E3FE0] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1E3FE0] hover:after:w-full after:transition-all after:duration-200"
+            >
+              Layanan
+            </a>
+            <a 
+              href="#kalkulator" 
+              className="whitespace-nowrap text-[#1E3FE0] hover:text-[#0B1A4A] font-semibold flex items-center gap-1.5 py-1 transition-colors"
+            >
+              <Calculator className="w-4 h-4 text-[#1E3FE0]" />
+              Kalkulator RAB
+            </a>
+            <a 
+              href="#proses" 
+              className="whitespace-nowrap hover:text-[#1E3FE0] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1E3FE0] hover:after:w-full after:transition-all after:duration-200"
+            >
+              Alur Kerja
+            </a>
+            <a 
+              href="#proyek" 
+              className="whitespace-nowrap hover:text-[#1E3FE0] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1E3FE0] hover:after:w-full after:transition-all after:duration-200"
+            >
+              Portofolio
+            </a>
+            <a 
+              href="#testimoni" 
+              className="whitespace-nowrap hover:text-[#1E3FE0] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#1E3FE0] hover:after:w-full after:transition-all after:duration-200"
+            >
+              Testimoni
+            </a>
           </nav>
 
-          {/* Consultation CTA Button */}
-          <div className="flex items-center gap-3">
+          {/* Consultation CTA Button & Mobile Toggle */}
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => handleConsultWa()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:from-[#1730B2] hover:to-[#2299DD] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-blue-900/20 cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0B1A4A] hover:bg-[#1E3FE0] text-white font-bold text-xs uppercase tracking-wider transition-colors duration-200 cursor-pointer shadow-sm"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4 text-[#2FB6EF]" />
               <span>Konsultasi Gratis</span>
+            </button>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-lg text-slate-700 hover:text-[#1E3FE0] hover:bg-slate-100 transition-colors"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
+
+        {/* Mobile Dropdown Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg">
+            <a
+              href="#keunggulan"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-[#1E3FE0] border-b border-slate-100"
+            >
+              Kenapa Kami
+            </a>
+            <a
+              href="#layanan"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-[#1E3FE0] border-b border-slate-100"
+            >
+              Layanan
+            </a>
+            <a
+              href="#kalkulator"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-bold text-[#1E3FE0] border-b border-slate-100 flex items-center gap-2"
+            >
+              <Calculator className="w-4 h-4" />
+              Kalkulator Biaya (RAB)
+            </a>
+            <a
+              href="#proses"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-[#1E3FE0] border-b border-slate-100"
+            >
+              Alur Kerja
+            </a>
+            <a
+              href="#proyek"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-[#1E3FE0] border-b border-slate-100"
+            >
+              Portofolio Proyek
+            </a>
+            <a
+              href="#testimoni"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-[#1E3FE0] border-b border-slate-100"
+            >
+              Testimoni Klien
+            </a>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleConsultWa();
+              }}
+              className="w-full mt-2 py-3 rounded-full bg-[#0B1A4A] hover:bg-[#1E3FE0] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+            >
+              <MessageCircle className="w-4 h-4 text-[#2FB6EF]" />
+              <span>Konsultasi Gratis via WhatsApp</span>
+            </button>
+          </div>
+        )}
       </header>
 
       {/* 3. HERO SECTION (DEEP BLUEPRINT TECHNICAL CAD STYLE) */}
@@ -317,14 +418,14 @@ function ContractorShowcaseContent() {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                 <a
                   href="#kalkulator"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:brightness-110 text-white font-bold text-sm tracking-wide transition-all shadow-xl shadow-blue-950 flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#1E3FE0] hover:bg-[#142EB5] text-white font-bold text-sm tracking-wide transition-colors duration-200 shadow-xl shadow-blue-950/50 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Calculator className="w-4 h-4" />
                   Hitung Estimasi Biaya (RAB)
                 </a>
                 <button
                   onClick={() => handleConsultWa()}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm tracking-wide transition-all flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Calendar className="w-4 h-4" />
                   Jadwalkan Survey Lokasi Gratis
@@ -644,9 +745,9 @@ function ContractorShowcaseContent() {
 
               <button
                 onClick={handleSendRabToWa}
-                className="w-full md:w-auto px-7 py-4 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-950 flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+                className="w-full md:w-auto px-7 py-4 rounded-full bg-[#1E3FE0] hover:bg-[#142EB5] text-white font-bold text-xs uppercase tracking-wider transition-colors duration-200 shadow-lg shadow-blue-950/40 flex items-center justify-center gap-2 shrink-0 cursor-pointer"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4 text-[#2FB6EF]" />
                 Konsultasikan RAB Ini ke WhatsApp
               </button>
             </div>
@@ -1069,9 +1170,9 @@ function ContractorShowcaseContent() {
 
             <button
               type="submit"
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:brightness-110 text-white font-extrabold text-sm uppercase tracking-wider transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 cursor-pointer mt-2"
+              className="w-full py-4 rounded-xl bg-[#1E3FE0] hover:bg-[#142EB5] text-white font-extrabold text-sm uppercase tracking-wider transition-colors duration-200 shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4 text-[#2FB6EF]" />
               Kirim & Jadwalkan Survey Gratis via WhatsApp
             </button>
           </form>
@@ -1134,9 +1235,9 @@ function ContractorShowcaseContent() {
         </div>
         <button
           onClick={() => handleConsultWa()}
-          className="flex-1 py-2.5 px-4 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
+          className="flex-1 py-2.5 px-4 rounded-full bg-[#1E3FE0] hover:bg-[#142EB5] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-colors duration-200 cursor-pointer"
         >
-          <MessageCircle className="w-4 h-4" />
+          <MessageCircle className="w-4 h-4 text-[#2FB6EF]" />
           Chat WhatsApp
         </button>
       </div>
