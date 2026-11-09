@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo, Suspense } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
   Calendar,
@@ -24,19 +23,13 @@ import {
   Ruler,
   Hammer,
   CheckCircle2,
-  XCircle,
+  FileText,
+  Home,
+  Compass,
+  HardHat,
   Layers,
   ArrowRight
 } from 'lucide-react';
-import {
-  defaultInteriorConfig,
-  interiorServices,
-  interiorProjects,
-  interiorWorkflow,
-  contractorTestimonials,
-  interiorFaqs,
-  InteriorService
-} from '@/data/interiorContractorData';
 
 function formatRupiah(num: number): string {
   return new Intl.NumberFormat('id-ID', {
@@ -46,104 +39,135 @@ function formatRupiah(num: number): string {
   }).format(num);
 }
 
-function InteriorContractorContent() {
+// Data Proyek Kontraktor
+const contractorProjects = [
+  {
+    title: 'Pembangunan Rumah 2 Lantai Modern Minimalis',
+    category: 'Bangun Baru',
+    location: 'Perumahan Kahuripan Nirwana, Sidoarjo',
+    specs: 'Luas Bangunan 180 m² | 4 Kamar Tidur | Struktur Beton Bertulang SNI',
+    image: '/images/demo/interior-living.jpg',
+    duration: '5.5 Bulan Pengerjaan',
+    desc: 'Pekerjaan dari nol mulai dari galian fondasi bored pile, struktur tahan gempa, dinding bata ringan, hingga finishing lantai granit 60x60 dan sanitair TOTO.'
+  },
+  {
+    title: 'Renovasi Total & Tambah Lantai 2 Rumah Tinggal',
+    category: 'Renovasi',
+    location: 'Puri Surya Jaya, Gedangan, Sidoarjo',
+    specs: 'Luas Tambahan 110 m² | Dak Beton Bondek | Rangka Atap Baja Ringan',
+    image: '/images/demo/interior-kitchen.jpg',
+    duration: '3 Bulan Pengerjaan',
+    desc: 'Penguatan struktur fondasi cakar ayam bawah, pengecoran dak lantai dua dengan ready mix K-250, penambahan 2 kamar anak, ruang keluarga, dan void sirkulasi udara.'
+  },
+  {
+    title: 'Interior Kitchen Set & Backdrop TV Residensial',
+    category: 'Interior & Custom',
+    location: 'CitraGarden Sidoarjo',
+    specs: 'Multiplek Meranti 18mm | HPL Taco Doff | Table Top Granit Nero',
+    image: '/images/demo/interior-bedroom.jpg',
+    duration: '20 Hari Kerja',
+    desc: 'Fabrikasi custom furniture presisi tinggi di workshop sendiri dengan engsel hidrolik slow-motion dan pencahayaan LED warm white.'
+  }
+];
+
+function ContractorShowcaseContent() {
   const searchParams = useSearchParams();
   const brandParam = searchParams.get('brand');
 
-  // Dynamic brand name
+  // Dynamic Brand Name (Default: CKP Kontraktor Sidoarjo)
   const brandName = useMemo(() => {
-    if (!brandParam) return defaultInteriorConfig.defaultBrand;
+    if (!brandParam) return 'CKP Kontraktor Sidoarjo';
     const clean = brandParam.trim();
-    if (clean.toLowerCase().includes('interior') || clean.toLowerCase().includes('kitchen') || clean.toLowerCase().includes('kontraktor')) {
+    if (clean.toLowerCase().includes('kontraktor') || clean.toLowerCase().includes('bangun')) {
       return clean;
     }
-    return `${clean} Interior & Kitchen Set`;
+    return `${clean} Kontraktor`;
   }, [brandParam]);
 
-  // Estimator State
-  const [estimatorType, setEstimatorType] = useState<'kitchen' | 'living' | 'wardrobe' | 'apartment'>('kitchen');
-  const [meterLength, setMeterLength] = useState<number>(4);
-  const [finishingType, setFinishingType] = useState<'taco-hpl' | 'aica-hpl' | 'duco'>('taco-hpl');
-  const [tableTopType, setTableTopType] = useState<'hpl' | 'solid-surface' | 'granite'>('granite');
+  // Estimator Mode: 'bangun' | 'renovasi' | 'interior'
+  const [estimateMode, setEstimateMode] = useState<'bangun' | 'renovasi' | 'interior'>('bangun');
+  const [luasBangunan, setLuasBangunan] = useState<number>(120);
+  const [kualitasMaterial, setKualitasMaterial] = useState<'standar' | 'medium' | 'premium'>('medium');
+  const [jumlahLantai, setJumlahLantai] = useState<number>(2);
 
-  // Estimator Calculation
-  const estimatedTotal = useMemo(() => {
-    if (estimatorType === 'apartment') {
-      let base = 38000000;
-      if (finishingType === 'aica-hpl') base += 5000000;
-      if (finishingType === 'duco') base += 9000000;
-      return { min: base, max: base + 6000000 };
+  // Estimasi Biaya Bangun / Renovasi
+  const calculationResult = useMemo(() => {
+    if (estimateMode === 'bangun') {
+      let hargaPerM2 = 3800000; // Standar
+      if (kualitasMaterial === 'medium') hargaPerM2 = 4600000;
+      if (kualitasMaterial === 'premium') hargaPerM2 = 5800000;
+
+      // Lantai 2 menambah sedikit biaya struktur per m2
+      const faktorLantai = jumlahLantai === 2 ? 1.05 : 1.0;
+      const total = Math.round(luasBangunan * hargaPerM2 * faktorLantai);
+
+      return {
+        hargaPerM2: Math.round(hargaPerM2 * faktorLantai),
+        totalMin: Math.round(total * 0.95),
+        totalMax: Math.round(total * 1.08),
+        unitLabel: 'per m² luas lantai'
+      };
     }
 
-    // Per meter calculation
-    let basePricePerMeter = 2400000;
-    if (estimatorType === 'living') basePricePerMeter = 1850000;
-    if (estimatorType === 'wardrobe') basePricePerMeter = 2500000;
+    if (estimateMode === 'renovasi') {
+      let hargaPerM2 = 2400000;
+      if (kualitasMaterial === 'medium') hargaPerM2 = 3200000;
+      if (kualitasMaterial === 'premium') hargaPerM2 = 4200000;
 
-    // Finishing modifier
-    if (finishingType === 'aica-hpl') basePricePerMeter += 350000;
-    if (finishingType === 'duco') basePricePerMeter += 750000;
-
-    // Table top modifier (hanya berlaku untuk kitchen set)
-    let tableTopCost = 0;
-    if (estimatorType === 'kitchen') {
-      if (tableTopType === 'solid-surface') tableTopCost = meterLength * 1200000;
-      if (tableTopType === 'granite') tableTopCost = meterLength * 1650000;
+      const total = luasBangunan * hargaPerM2;
+      return {
+        hargaPerM2,
+        totalMin: Math.round(total * 0.9),
+        totalMax: Math.round(total * 1.15),
+        unitLabel: 'per m² area renovasi'
+      };
     }
 
-    const subtotal = (basePricePerMeter * meterLength) + tableTopCost;
+    // Interior / Kitchen
+    const panjangMeterLari = Math.max(3, Math.round(luasBangunan / 15));
+    let hargaPerMeter = 2400000;
+    if (kualitasMaterial === 'medium') hargaPerMeter = 2900000;
+    if (kualitasMaterial === 'premium') hargaPerMeter = 3800000;
+
+    const total = panjangMeterLari * hargaPerMeter;
     return {
-      min: subtotal,
-      max: Math.round(subtotal * 1.12)
+      hargaPerM2: hargaPerMeter,
+      totalMin: Math.round(total * 0.95),
+      totalMax: Math.round(total * 1.1),
+      unitLabel: 'per meter lari'
     };
-  }, [estimatorType, meterLength, finishingType, tableTopType]);
-
-  // Portfolio Filter
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const filteredProjects = useMemo(() => {
-    if (activeCategory === 'all') return interiorProjects;
-    return interiorProjects.filter((p) => p.category.toLowerCase().includes(activeCategory.toLowerCase()));
-  }, [activeCategory]);
-
-  // FAQ State
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  }, [estimateMode, luasBangunan, kualitasMaterial, jumlahLantai]);
 
   // Form State
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     location: '',
-    roomType: 'Kitchen Set & Ruang Makan',
-    preferredDate: '',
+    serviceType: 'Pembangunan Rumah Baru dari Nol',
+    estimatedBudget: 'Rp 200 Juta - Rp 500 Juta',
     notes: ''
   });
 
   // WA Handlers
-  const handleConsultWa = (serviceName?: string) => {
-    const text = serviceName
-      ? `Halo ${brandName}, saya mau konsultasi dan tanya estimasi biaya untuk pembuatan *${serviceName}*. Boleh info jadwal survey lokasinya?`
-      : `Halo ${brandName}, saya berencana renovasi interior / bikin kitchen set di Surabaya. Boleh konsultasi dan jadwalkan survey gratis ke rumah saya?`;
+  const handleConsultWa = (topic?: string) => {
+    const text = topic
+      ? `Halo ${brandName}, saya ingin konsultasi mengenai *${topic}*. Apakah bisa dijadwalkan survey lokasi awal?`
+      : `Halo ${brandName}, saya berencana bangun / renovasi rumah di Sidoarjo atau sekitarnya. Boleh konsultasi teknis dan perkiraan RAB-nya?`;
     window.open(`https://wa.me/6285602743489?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  const handleSendEstimateToWa = () => {
-    const typeLabel = estimatorType === 'kitchen' ? 'Kitchen Set' :
-      estimatorType === 'living' ? 'Backdrop TV & Wall Panel' :
-      estimatorType === 'wardrobe' ? 'Wardrobe / Lemari Full Plafon' : 'Paket Interior Apartemen';
+  const handleSendRabToWa = () => {
+    const modeLabel = estimateMode === 'bangun' ? `Bangun Rumah Baru (${jumlahLantai} Lantai)` :
+      estimateMode === 'renovasi' ? 'Renovasi Rumah' : 'Interior & Kitchen Set';
+    const gradeLabel = kualitasMaterial === 'standar' ? 'Standar SNI' :
+      kualitasMaterial === 'medium' ? 'Medium Berkualitas (Rekomendasi)' : 'Premium Mewah';
 
-    const finishLabel = finishingType === 'taco-hpl' ? 'Taco HPL Doff/Glossy' :
-      finishingType === 'aica-hpl' ? 'Aica Luxury Anti-Fingerprint' : 'Cat Duco Doff Halus';
-
-    const topLabel = estimatorType === 'kitchen'
-      ? `\n- Table Top: ${tableTopType === 'granite' ? 'Granit Nero / Marmer Alam' : tableTopType === 'solid-surface' ? 'Solid Surface Higienis' : 'HPL Standard'}`
-      : '';
-
-    const text = `Halo ${brandName}, saya sudah coba hitung estimasi biaya di website Anda:\n\n` +
-      `📐 *Pekerjaan:* ${typeLabel}\n` +
-      (estimatorType !== 'apartment' ? `📏 *Perkiraan Ukuran:* ${meterLength} Meter Lari\n` : '') +
-      `🎨 *Pilihan Finishing:* ${finishLabel}${topLabel}\n` +
-      `💰 *Estimasi Budget:* ${formatRupiah(estimatedTotal.min)} s/d ${formatRupiah(estimatedTotal.max)}\n\n` +
-      `Bisa dibantu jadwalkan survey gratis ke rumah/lokasi saya di Surabaya untuk pengukuran pastinya?`;
+    const text = `Halo ${brandName}, saya telah mencoba simulasi hitung biaya di website Anda:\n\n` +
+      `🏗️ *Rencana Proyek:* ${modeLabel}\n` +
+      `📐 *Perkiraan Luas Bangunan:* ${luasBangunan} m²\n` +
+      `⭐ *Spesifikasi Bahan:* ${gradeLabel}\n` +
+      `💰 *Estimasi Anggaran (RAB):* ${formatRupiah(calculationResult.totalMin)} s/d ${formatRupiah(calculationResult.totalMax)}\n\n` +
+      `Bisa dibantu jadwalkan survey lokasi untuk pengukuran riil dan pembuatan gambar kerjanya? Terima kasih.`;
 
     window.open(`https://wa.me/6285602743489?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -152,169 +176,234 @@ function InteriorContractorContent() {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.location) return;
 
-    const message = `Halo ${brandName}, saya ingin jadwalkan survey lokasi & konsultasi interior gratis:\n\n` +
+    const text = `Halo ${brandName}, saya ingin jadwalkan survey lokasi gratis & konsultasi bangun rumah:\n\n` +
       `👤 *Nama:* ${formData.name}\n` +
       `📱 *No. WhatsApp:* ${formData.phone}\n` +
-      `📍 *Lokasi/Perumahan:* ${formData.location} (Surabaya/Sekitarnya)\n` +
-      `🛋️ *Ruangan yang Ingin Didekor:* ${formData.roomType}\n` +
-      `📅 *Rencana Waktu Survey:* ${formData.preferredDate || 'Menyesuaikan jadwal tim arsitek'}\n` +
-      (formData.notes ? `📝 *Catatan Kebutuhan:* ${formData.notes}\n\n` : '\n') +
-      `Mohon konfirmasi jadwal kosongnya ya mas/admin. Terima kasih!`;
+      `📍 *Lokasi Tanah/Rumah:* ${formData.location}\n` +
+      `🏗️ *Jenis Pekerjaan:* ${formData.serviceType}\n` +
+      `💵 *Alokasi Anggaran:* ${formData.estimatedBudget}\n` +
+      (formData.notes ? `📝 *Catatan Tambahan:* ${formData.notes}\n\n` : '\n') +
+      `Mohon info ketersediaan jadwal tim arsitek untuk survey. Terima kasih!`;
 
-    window.open(`https://wa.me/6285602743489?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/6285602743489?text=${encodeURIComponent(text)}`, '_blank');
   };
 
+  // FAQ State
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans selection:bg-amber-800 selection:text-white">
+    <div className="min-h-screen bg-[#F4F6FB] text-[#0F172A] font-sans antialiased selection:bg-[#1E3FE0] selection:text-white">
       
-      {/* 1. TOP DEMO BANNER (STATIC AGAR TIDAK MENGGANGGU SCROLL HP) */}
-      <div className="bg-stone-900 text-stone-300 px-4 py-2.5 text-xs border-b border-stone-800">
+      {/* 1. TOP LIVE PREVIEW DEMO BAR */}
+      <div className="bg-[#081235] text-slate-300 px-4 py-2 text-xs border-b border-blue-950">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-[#F5C518] animate-pulse shrink-0" />
             <span className="text-[11px] sm:text-xs">
-              Live Preview Khusus untuk <strong className="text-white">{brandName}</strong> oleh <strong>NARA Digital</strong>
+              Konsep Live Preview Resmi untuk <strong className="text-white">{brandName}</strong> oleh <strong>NARA Dev Studio</strong>
             </span>
           </div>
           <a
-            href={`https://wa.me/6285602743489?text=Halo%20NARA%20Digital,%20saya%20tertarik%20konsultasi%20website%20untuk%20${encodeURIComponent(brandName)}`}
+            href={`https://wa.me/6285602743489?text=Halo%20NARA%20Dev,%20saya%20tertarik%20konsultasi%20website%20arsitektur%20untuk%20${encodeURIComponent(brandName)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-amber-400 hover:text-white font-semibold text-[11px] underline underline-offset-2 transition-colors"
+            className="text-[#F5C518] hover:text-white font-semibold text-[11px] underline underline-offset-2 transition-colors"
           >
-            Upgrade Website Anda Sekarang &rarr;
+            Konsultasi Website Resmi Kontraktor &rarr;
           </a>
         </div>
       </div>
 
-      {/* 2. MAIN NAVBAR */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200">
+      {/* 2. MAIN NAVBAR (ARCHITECTURAL CLEAN BLUEPRINT STYLE) */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-lg bg-stone-900 text-amber-400 flex items-center justify-center font-serif text-xl font-bold tracking-wider shadow-sm">
-              K
+          
+          {/* Logo & Brand Identity */}
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-lg bg-[#0B1A4A] text-white flex items-center justify-center font-bold text-xl shadow-md border border-blue-900">
+              <Compass className="w-6 h-6 text-[#2FB6EF]" />
             </div>
             <div>
-              <span className="font-serif font-bold text-lg tracking-tight text-stone-900 block leading-tight">
+              <span className="font-bold text-lg text-[#0B1A4A] tracking-tight block leading-tight">
                 {brandName}
               </span>
-              <span className="text-[11px] text-stone-500 font-medium tracking-wide uppercase flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-amber-700" />
-                Workshop & Design Studio Surabaya
+              <span className="text-[11px] text-slate-500 font-medium tracking-wide flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#1E3FE0]" />
+                Jasa Bangun, Renovasi & Arsitek Sidoarjo
               </span>
             </div>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-stone-600">
-            <a href="#layanan" className="hover:text-amber-800 transition-colors">Layanan & Harga</a>
-            <a href="#estimator" className="hover:text-amber-800 transition-colors flex items-center gap-1.5 text-amber-800 font-semibold">
-              <Calculator className="w-4 h-4" />
-              Hitung Biaya (RAB)
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <a href="#keunggulan" className="hover:text-[#1E3FE0] transition-colors">Standar Kualitas</a>
+            <a href="#layanan" className="hover:text-[#1E3FE0] transition-colors">Layanan</a>
+            <a href="#kalkulator" className="text-[#1E3FE0] hover:text-[#0B1A4A] transition-colors flex items-center gap-1.5 font-bold">
+              <Calculator className="w-4 h-4 text-[#1E3FE0]" />
+              Kalkulator Biaya (RAB)
             </a>
-            <a href="#portofolio" className="hover:text-amber-800 transition-colors">Portofolio Proyek</a>
-            <a href="#material" className="hover:text-amber-800 transition-colors">Spesifikasi Material</a>
-            <a href="#alur-kerja" className="hover:text-amber-800 transition-colors">Alur Kerja</a>
-            <a href="#testimoni" className="hover:text-amber-800 transition-colors">Ulasan Klien</a>
+            <a href="#proses" className="hover:text-[#1E3FE0] transition-colors">Tahapan Kerja</a>
+            <a href="#proyek" className="hover:text-[#1E3FE0] transition-colors">Portofolio</a>
+            <a href="#testimoni" className="hover:text-[#1E3FE0] transition-colors">Testimoni</a>
           </nav>
 
+          {/* Consultation CTA Button */}
           <div className="flex items-center gap-3">
-            <a
-              href="#survey-gratis"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-stone-900 text-amber-300 hover:bg-stone-800 font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
-            >
-              <Calendar className="w-4 h-4" />
-              Survey Gratis
-            </a>
             <button
               onClick={() => handleConsultWa()}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-amber-700 text-white hover:bg-amber-800 font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:from-[#1730B2] hover:to-[#2299DD] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-blue-900/20 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
-              <span className="hidden sm:inline">WhatsApp</span>
+              <span>Konsultasi Gratis</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* 3. HERO SECTION */}
-      <section className="relative overflow-hidden bg-stone-900 text-stone-100 py-16 lg:py-24 border-b border-stone-800">
-        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:24px_24px]" />
+      {/* 3. HERO SECTION (DEEP BLUEPRINT TECHNICAL CAD STYLE) */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#0B1A4A] via-[#0E2160] to-[#081235] text-white py-16 lg:py-24 border-b border-blue-950">
         
+        {/* Architectural CAD Blueprint Grid Overlay */}
+        <div 
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #2FB6EF 1px, transparent 1px),
+              linear-gradient(to bottom, #2FB6EF 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+        />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            {/* Left Content */}
+            {/* Left Column: Editorial Headline & Value Prop */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-800/80 border border-stone-700 text-amber-400 text-xs font-semibold tracking-wide">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Spesialis Kitchen Set & Interior Custom Presisi di Surabaya</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-900/50 border border-blue-700/60 text-[#2FB6EF] text-xs font-semibold tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F5C518]" />
+                <span className="uppercase tracking-wider text-[11px] font-bold">— {brandName.toUpperCase()}</span>
               </div>
 
-              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.18]">
-                Bikin Rumah & Apartemen di Surabaya Lebih Mewah, Rapi, dan Bernilai Tinggi.
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.18]">
+                Membangun rumah <span className="text-[#F5C518] italic font-serif">tuntas & berkualitas</span>, dari fondasi sampai serah terima kunci.
               </h1>
 
-              <p className="text-stone-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Pengerjaan langsung dari workshop fabrikasi sendiri di Surabaya. Menggunakan 100% Multiplek Meranti 18mm padat anti-rayap (bukan serbuk kayu/MDF). Dilengkapi gambar 3D render gratis, rincian RAB transparan, dan garansi pemeliharaan resmi 1 tahun.
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                {brandName} menangani pembangunan rumah baru, renovasi total, dan pengerjaan sesuai gambar kerja teknis. Dikerjakan langsung oleh tim arsitek dan tukang berpengalaman dengan progres mingguan transparan yang bisa Anda pantau setiap tahap.
               </p>
 
-              {/* Badges */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="bg-stone-800/60 border border-stone-700/60 p-3 rounded-lg text-left">
-                  <span className="block font-serif text-xl font-bold text-amber-400">150+</span>
-                  <span className="text-[11px] text-stone-400 leading-tight">Proyek Selesai di Surabaya</span>
+              {/* 4 Trust Checkmarks */}
+              <div className="grid grid-cols-2 gap-3 pt-2 text-left text-xs sm:text-sm text-slate-200">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2FB6EF] shrink-0" />
+                  <span>Struktur Beton SNI Tahan Gempa</span>
                 </div>
-                <div className="bg-stone-800/60 border border-stone-700/60 p-3 rounded-lg text-left">
-                  <span className="block font-serif text-xl font-bold text-amber-400">100%</span>
-                  <span className="text-[11px] text-stone-400 leading-tight">Plywood 18mm Anti Rayap</span>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2FB6EF] shrink-0" />
+                  <span>RAB Transparan Tanpa Biaya Siluman</span>
                 </div>
-                <div className="bg-stone-800/60 border border-stone-700/60 p-3 rounded-lg text-left">
-                  <span className="block font-serif text-xl font-bold text-amber-400">1 Thn</span>
-                  <span className="text-[11px] text-stone-400 leading-tight">Garansi Resmi Struktur</span>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2FB6EF] shrink-0" />
+                  <span>Laporan Progres Foto & Video Tiap Minggu</span>
                 </div>
-                <div className="bg-stone-800/60 border border-stone-700/60 p-3 rounded-lg text-left">
-                  <span className="block font-serif text-xl font-bold text-amber-400">Rp 0</span>
-                  <span className="text-[11px] text-stone-400 leading-tight">Biaya Survey & Konsultasi</span>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2FB6EF] shrink-0" />
+                  <span>Garansi Resmi Pemeliharaan Konstruksi</span>
                 </div>
               </div>
 
-              {/* CTAs */}
+              {/* CTA Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                 <a
-                  href="#estimator"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-md bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm tracking-wide transition-all shadow-lg shadow-amber-900/30 flex items-center justify-center gap-2"
+                  href="#kalkulator"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:brightness-110 text-white font-bold text-sm tracking-wide transition-all shadow-xl shadow-blue-950 flex items-center justify-center gap-2"
                 >
                   <Calculator className="w-4 h-4" />
                   Hitung Estimasi Biaya (RAB)
                 </a>
-                <a
-                  href="#survey-gratis"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-md bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2"
+                <button
+                  onClick={() => handleConsultWa()}
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm tracking-wide transition-all flex items-center justify-center gap-2"
                 >
                   <Calendar className="w-4 h-4" />
                   Jadwalkan Survey Lokasi Gratis
-                </a>
+                </button>
               </div>
             </div>
 
-            {/* Right Showcase Photo */}
+            {/* Right Column: Architectural Blueprint CAD Illustration */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-stone-700/80 aspect-[4/3] sm:aspect-[4/3]">
-                <Image
-                  src={defaultInteriorConfig.heroImage}
-                  alt="Modern Japandi Kitchen Set Surabaya"
-                  fill
-                  priority
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 bg-stone-900/90 backdrop-blur-md p-4 rounded-xl border border-stone-700 text-left">
-                  <div className="flex items-center justify-between text-xs text-amber-400 font-semibold mb-1">
-                    <span>Proyek Realisasi Terbaru</span>
-                    <span className="bg-amber-400/20 px-2 py-0.5 rounded text-[10px]">Pakuwon City</span>
+              <div className="relative rounded-2xl overflow-hidden bg-[#07102C] border-2 border-blue-500/30 p-6 shadow-2xl">
+                
+                {/* Technical CAD Drawing Header */}
+                <div className="flex items-center justify-between border-b border-blue-800/60 pb-3 mb-4 text-xs font-mono text-[#2FB6EF]">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#F5C518]" />
+                    <span>DED-DWG_REV04.CAD</span>
                   </div>
-                  <p className="text-white text-sm font-medium">Kitchen Set Modern Japandi & Island Table Marmer</p>
-                  <p className="text-stone-400 text-xs mt-0.5">Pengerjaan workshop 16 hari kerja, presisi tanpa celah.</p>
+                  <span>SCALE 1:100</span>
+                </div>
+
+                {/* Blueprint House Wireframe Vector */}
+                <div className="relative aspect-[4/3] w-full border border-blue-900/80 rounded-lg p-4 bg-[#0A163B] flex items-center justify-center overflow-hidden">
+                  
+                  {/* Technical Dimension lines */}
+                  <div className="absolute top-2 left-6 right-6 flex items-center justify-between text-[10px] font-mono text-[#2FB6EF]/70 border-b border-dashed border-[#2FB6EF]/40 pb-1">
+                    <span>|&lt;-- 3750 --&gt;|</span>
+                    <span>|&lt;-- 5450 --&gt;|</span>
+                  </div>
+                  <div className="absolute left-2 top-8 bottom-8 flex flex-col justify-between text-[9px] font-mono text-[#2FB6EF]/70 border-r border-dashed border-[#2FB6EF]/40 pr-1">
+                    <span>3950</span>
+                    <span>3750</span>
+                    <span>1500</span>
+                  </div>
+
+                  {/* SVG Blueprint Vector */}
+                  <svg viewBox="0 0 400 300" className="w-full h-full stroke-[#2FB6EF] fill-none stroke-[1.5] opacity-90">
+                    {/* Ground line */}
+                    <line x1="20" y1="260" x2="380" y2="260" stroke="#F5C518" strokeWidth="2" />
+                    {/* Foundation */}
+                    <rect x="40" y="250" width="320" height="10" strokeDasharray="4 2" />
+                    {/* First Floor */}
+                    <rect x="50" y="160" width="300" height="90" />
+                    {/* Door */}
+                    <rect x="180" y="180" width="45" height="70" />
+                    <circle cx="218" cy="215" r="2" fill="#2FB6EF" />
+                    {/* Windows Floor 1 */}
+                    <rect x="75" y="180" width="60" height="50" />
+                    <line x1="105" y1="180" x2="105" y2="230" />
+                    <rect x="265" y="180" width="65" height="50" />
+                    <line x1="297" y1="180" x2="297" y2="230" />
+                    {/* Second Floor */}
+                    <rect x="65" y="70" width="270" height="90" />
+                    {/* Balcony Railing */}
+                    <rect x="65" y="125" width="110" height="35" strokeDasharray="3 3" />
+                    <line x1="65" y1="140" x2="175" y2="140" />
+                    {/* Second Floor Windows */}
+                    <rect x="90" y="85" width="60" height="40" />
+                    <rect x="210" y="85" width="95" height="55" />
+                    <line x1="257" y1="85" x2="257" y2="140" />
+                    {/* Modern Gable Roof */}
+                    <polygon points="50,70 200,20 350,70" stroke="#F5C518" strokeWidth="2" />
+                    {/* Architectural dimension annotations */}
+                    <text x="145" y="45" fill="#F5C518" fontSize="10" fontFamily="monospace">ROOF EL. +9.200</text>
+                    <text x="215" y="105" fill="#2FB6EF" fontSize="9" fontFamily="monospace">FL 2 EL. +3.750</text>
+                    <text x="235" y="205" fill="#2FB6EF" fontSize="9" fontFamily="monospace">FL 1 EL. +0.000</text>
+                  </svg>
+
+                  {/* Corner Badge */}
+                  <div className="absolute bottom-3 right-3 bg-[#0B1A4A]/90 border border-blue-500/40 px-3 py-1.5 rounded text-[11px] text-white font-mono">
+                    <span className="text-[#F5C518] font-bold">STATUS:</span> ACC GAMBAR KERJA
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between text-xs text-slate-300">
+                  <span className="flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-[#2FB6EF]" />
+                    Lengkap Gambar 2D & 3D Render
+                  </span>
+                  <span className="text-[#F5C518] font-semibold">Tepat Waktu & Presisi</span>
                 </div>
               </div>
             </div>
@@ -323,597 +412,588 @@ function InteriorContractorContent() {
         </div>
       </section>
 
-      {/* 4. INTERACTIVE RAB ESTIMATOR (FITUR UNGGULAN PENARIK LEADS) */}
-      <section id="estimator" className="py-20 bg-stone-100 border-b border-stone-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
-              Kalkulator Biaya Transparan
+      {/* 4. STANDAR KUALITAS (DIKERJAKAN DENGAN STANDAR YANG BISA ANDA PERIKSA SENDIRI) */}
+      <section id="keunggulan" className="py-20 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3FE0] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+              Prinsip Profesionalisme
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-              Hitung Perkiraan Biaya Interior Anda
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1A4A] mt-3">
+              Dikerjakan dengan standar yang bisa Anda periksa sendiri.
             </h2>
-            <p className="text-stone-600 text-sm mt-2">
-              Dapatkan estimasi kasar rincian anggaran (RAB) sebelum tim kami melakukan survey pengukuran resmi.
+            <p className="text-slate-600 text-sm mt-3">
+              Membangun rumah adalah keputusan finansial besar seumur hidup. Kami menghapus rasa was-was dicurangi dengan transparansi material dan alur kerja legal bergaransi.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border border-stone-200/80 p-6 sm:p-10">
-            {/* Step 1: Select Type */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Pilar 1 */}
+            <div className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 hover:border-[#1E3FE0] transition-all hover:shadow-lg group">
+              <div className="w-12 h-12 rounded-xl bg-[#0B1A4A] text-[#2FB6EF] flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0B1A4A] mb-2.5">
+                Material Terbuka Sesuai RAB
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Merek semen, besi beton bertulang bersertifikat SNI, bata merah/hebel, hingga kabel listrik berstandar PLN. Tidak ada penurunan spek sepihak di tengah jalan.
+              </p>
+            </div>
+
+            {/* Pilar 2 */}
+            <div className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 hover:border-[#1E3FE0] transition-all hover:shadow-lg group">
+              <div className="w-12 h-12 rounded-xl bg-[#0B1A4A] text-[#2FB6EF] flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                <FileText className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0B1A4A] mb-2.5">
+                Laporan Progres Mingguan Terjadwal
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Anda tidak perlu setiap hari panas-panasan mengawasi proyek di lokasi. Tim kami mengirimkan dokumentasi foto dan video kurva S progres pengerjaan setiap minggu.
+              </p>
+            </div>
+
+            {/* Pilar 3 */}
+            <div className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 hover:border-[#1E3FE0] transition-all hover:shadow-lg group">
+              <div className="w-12 h-12 rounded-xl bg-[#0B1A4A] text-[#2FB6EF] flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                <Award className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0B1A4A] mb-2.5">
+                Garansi Retensi Pemeliharaan Resmi
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Setelah serah terima kunci, kami memberikan masa garansi pemeliharaan untuk memastikan tidak ada rembesan atap, retak rambut plesteran, atau kendala instalasi pipa.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 5. INTERACTIVE KALKULATOR ESTIMASI BIAYA BANGUN (RAB PER M2) */}
+      <section id="kalkulator" className="py-20 bg-[#EDF2FA] border-b border-slate-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3FE0] bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+              Kalkulator Biaya Transparan
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1A4A] mt-3">
+              Kalkulator Estimasi Biaya Bangun Rumah.
+            </h2>
+            <p className="text-slate-600 text-sm mt-2">
+              Ketahui gambaran anggaran (RAB) sebelum memulai proyek. Hitung estimasi biaya bangun baru, renovasi, atau interior secara instan.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden p-6 sm:p-10">
+            
+            {/* Step 1: Mode Selection */}
             <div className="mb-8">
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-3">
-                1. Pilih Jenis Pekerjaan:
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                1. Pilih Kategori Proyek Anda:
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
-                  { id: 'kitchen', label: 'Kitchen Set', sub: 'Atas & Bawah' },
-                  { id: 'living', label: 'Backdrop TV', sub: 'Wall Panel & Rak' },
-                  { id: 'wardrobe', label: 'Lemari / Wardrobe', sub: 'Full Plafon' },
-                  { id: 'apartment', label: 'Paket Apartemen', sub: 'All-In Siap Huni' }
+                  { id: 'bangun', label: 'Bangun Rumah Baru', sub: 'Dari Tanah Kavling Kosong' },
+                  { id: 'renovasi', label: 'Renovasi / Tambah Lantai', sub: 'Perluasan & Ubah Layout' },
+                  { id: 'interior', label: 'Interior & Kitchen Set', sub: 'Custom Furniture Multiplek' }
                 ].map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => setEstimatorType(item.id as any)}
-                    className={`p-4 rounded-xl border text-left transition-all ${
-                      estimatorType === item.id
-                        ? 'border-amber-700 bg-amber-50/50 shadow-sm ring-1 ring-amber-700'
-                        : 'border-stone-200 hover:border-stone-300 bg-white'
+                    onClick={() => setEstimateMode(item.id as any)}
+                    className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                      estimateMode === item.id
+                        ? 'border-[#1E3FE0] bg-blue-50/70 shadow-sm ring-2 ring-[#1E3FE0]/20'
+                        : 'border-slate-200 hover:border-slate-300 bg-white'
                     }`}
                   >
-                    <span className={`block font-semibold text-sm ${estimatorType === item.id ? 'text-amber-900' : 'text-stone-800'}`}>
+                    <span className={`block font-bold text-sm ${estimateMode === item.id ? 'text-[#1E3FE0]' : 'text-slate-900'}`}>
                       {item.label}
                     </span>
-                    <span className="text-xs text-stone-500">{item.sub}</span>
+                    <span className="text-xs text-slate-500 mt-0.5 block">{item.sub}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Step 2: Dimension Slider (If not apartment) */}
-            {estimatorType !== 'apartment' && (
-              <div className="mb-8 bg-stone-50 p-6 rounded-xl border border-stone-200">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-600 flex items-center gap-1.5">
-                    <Ruler className="w-4 h-4 text-amber-700" />
-                    2. Perkiraan Panjang Ruangan (Meter Lari):
-                  </label>
-                  <span className="font-serif text-xl font-bold text-amber-800">
-                    {meterLength} Meter
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="2"
-                  max="10"
-                  step="0.5"
-                  value={meterLength}
-                  onChange={(e) => setMeterLength(parseFloat(e.target.value))}
-                  className="w-full h-2.5 bg-stone-300 rounded-lg appearance-none cursor-pointer accent-amber-700"
-                />
-                <div className="flex justify-between text-[11px] text-stone-500 mt-2">
-                  <span>2 Meter (Dapur Compact)</span>
-                  <span>5 Meter (Standard Rumah)</span>
-                  <span>10 Meter (Dapur Luas / Island)</span>
-                </div>
+            {/* Step 2: Slider Luas Bangunan */}
+            <div className="mb-8 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <Ruler className="w-4 h-4 text-[#1E3FE0]" />
+                  2. {estimateMode === 'interior' ? 'Perkiraan Panjang Ruang / Dapur:' : 'Perkiraan Luas Bangunan:'}
+                </label>
+                <span className="font-extrabold text-xl sm:text-2xl text-[#0B1A4A]">
+                  {estimateMode === 'interior' ? `${Math.max(3, Math.round(luasBangunan / 15))} Meter Lari` : `${luasBangunan} m²`}
+                </span>
               </div>
-            )}
+              <input
+                type="range"
+                min="45"
+                max="400"
+                step="5"
+                value={luasBangunan}
+                onChange={(e) => setLuasBangunan(parseInt(e.target.value))}
+                className="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#1E3FE0]"
+              />
+              <div className="flex justify-between text-[11px] text-slate-500 mt-2 font-mono">
+                <span>45 m² (Tipe 36/45)</span>
+                <span>120 m² (Rumah 2 Lantai Standar)</span>
+                <span>400 m² (Hunian Mewah)</span>
+              </div>
+            </div>
 
-            {/* Step 3: Material & Finishing */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {/* Step 3: Material Grade & Lantai */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-2">
-                  {estimatorType !== 'apartment' ? '3.' : '2.'} Pilihan Finishing Luar:
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  3. Pilihan Standar Spesifikasi Material:
                 </label>
                 <div className="space-y-2">
                   {[
-                    { id: 'taco-hpl', label: 'Taco HPL Doff / Tekstur Kayu', sub: 'Populer, tahan gores & panas' },
-                    { id: 'aica-hpl', label: 'Aica HPL Anti-Fingerprint Premium', sub: 'Mewah, sidik jari tidak menempel' },
-                    { id: 'duco', label: 'Finishing Cat Duco Doff Halus', sub: 'Tampilan mulus elegan tanpa sambungan' }
-                  ].map((fin) => (
+                    { id: 'standar', label: 'Spesifikasi Standar SNI', desc: 'Bata hebel, granit 60x60, sanitair standar, genteng beton' },
+                    { id: 'medium', label: 'Spesifikasi Medium (Paling Favorit)', desc: 'Bata merah/hebel, granit glazed polish, sanitair TOTO/American Standard' },
+                    { id: 'premium', label: 'Spesifikasi Premium Mewah', desc: 'Lantai marmer/granit slab besar, sanitair Kohler/Grohe, pintu kayu solid' }
+                  ].map((grade) => (
                     <label
-                      key={fin.id}
-                      onClick={() => setFinishingType(fin.id as any)}
-                      className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                        finishingType === fin.id
-                          ? 'border-amber-700 bg-amber-50/40 ring-1 ring-amber-700'
-                          : 'border-stone-200 hover:border-stone-300'
+                      key={grade.id}
+                      onClick={() => setKualitasMaterial(grade.id as any)}
+                      className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                        kualitasMaterial === grade.id
+                          ? 'border-[#1E3FE0] bg-blue-50/50 ring-1 ring-[#1E3FE0]'
+                          : 'border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <input
                         type="radio"
-                        name="finishing"
-                        checked={finishingType === fin.id}
-                        onChange={() => setFinishingType(fin.id as any)}
-                        className="mt-1 text-amber-700 focus:ring-amber-700"
+                        name="grade"
+                        checked={kualitasMaterial === grade.id}
+                        onChange={() => setKualitasMaterial(grade.id as any)}
+                        className="mt-1 text-[#1E3FE0] focus:ring-[#1E3FE0]"
                       />
                       <div>
-                        <span className="block text-xs font-semibold text-stone-900">{fin.label}</span>
-                        <span className="text-[11px] text-stone-500">{fin.sub}</span>
+                        <span className="block text-xs font-bold text-slate-900">{grade.label}</span>
+                        <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">{grade.desc}</span>
                       </div>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* Table Top for Kitchen Set only */}
-              {estimatorType === 'kitchen' && (
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-2">
-                    4. Pilihan Table Top Meja Dapur:
-                  </label>
-                  <div className="space-y-2">
-                    {[
-                      { id: 'granite', label: 'Granit Alam Hitam (Nero India / Black Gold)', sub: 'Sangat keras, tahan panas kuali panas' },
-                      { id: 'solid-surface', label: 'Solid Surface Higienis Mulus', sub: 'Bebas pori-pori, tanpa nat kotoran sambungan' },
-                      { id: 'hpl', label: 'Lapis HPL Senada Kabinet', sub: 'Ekonomis untuk area dapur bersih (dry kitchen)' }
-                    ].map((top) => (
-                      <label
-                        key={top.id}
-                        onClick={() => setTableTopType(top.id as any)}
-                        className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                          tableTopType === top.id
-                            ? 'border-amber-700 bg-amber-50/40 ring-1 ring-amber-700'
-                            : 'border-stone-200 hover:border-stone-300'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="tabletop"
-                          checked={tableTopType === top.id}
-                          onChange={() => setTableTopType(top.id as any)}
-                          className="mt-1 text-amber-700 focus:ring-amber-700"
-                        />
-                        <div>
-                          <span className="block text-xs font-semibold text-stone-900">{top.label}</span>
-                          <span className="text-[11px] text-stone-500">{top.sub}</span>
-                        </div>
-                      </label>
-                    ))}
+              {/* Jumlah Lantai (Jika Bangun Baru) */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  4. Rencana Jumlah Lantai:
+                </label>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {[
+                    { lantai: 1, label: '1 Lantai', sub: 'Fondasi Tapak / Cakar Ayam' },
+                    { lantai: 2, label: '2 Lantai', sub: 'Dak Bondek & Beton K-250' }
+                  ].map((l) => (
+                    <button
+                      key={l.lantai}
+                      type="button"
+                      onClick={() => setJumlahLantai(l.lantai)}
+                      className={`p-3.5 rounded-xl border text-left cursor-pointer transition-all ${
+                        jumlahLantai === l.lantai
+                          ? 'border-[#1E3FE0] bg-blue-50/60 ring-1 ring-[#1E3FE0]'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <span className="block font-bold text-sm text-slate-900">{l.label}</span>
+                      <span className="text-[10px] text-slate-500 leading-tight block">{l.sub}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                  <span className="font-bold text-slate-800 block text-[11px] uppercase tracking-wide">Sudah Termasuk:</span>
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-[#1E3FE0] shrink-0" />
+                    <span>Gambar Kerja Arsitektur & Perhitungan Struktur</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-[#1E3FE0] shrink-0" />
+                    <span>Upah Tenaga Kerja Tukang & Pengawas Lapangan</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-[#1E3FE0] shrink-0" />
+                    <span>Garansi Pemeliharaan Resmi Pasca Serah Terima</span>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
-            {/* Calculation Result Box */}
-            <div className="bg-stone-900 text-stone-100 rounded-xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Result Box (Technical Blueprint Deep Blue Card) */}
+            <div className="rounded-2xl bg-gradient-to-r from-[#0B1A4A] to-[#0E2160] text-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl border border-blue-900">
               <div>
-                <span className="text-xs uppercase tracking-wider text-amber-400 font-semibold block mb-1">
-                  Hasil Perkiraan Anggaran (RAB):
+                <span className="text-xs uppercase font-bold text-[#F5C518] tracking-wider block mb-1">
+                  Hasil Estimasi Kasar Anggaran Proyek (RAB):
                 </span>
-                <div className="font-serif text-2xl sm:text-3xl font-bold text-white">
-                  {formatRupiah(estimatedTotal.min)} <span className="text-stone-400 text-lg font-normal">s/d</span> {formatRupiah(estimatedTotal.max)}
+                <div className="text-2xl sm:text-3xl font-extrabold text-white">
+                  {formatRupiah(calculationResult.totalMin)} <span className="text-slate-400 text-lg font-normal">s/d</span> {formatRupiah(calculationResult.totalMax)}
                 </div>
-                <p className="text-xs text-stone-400 mt-2 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                  Sudah termasuk: Plywood 18mm, Engsel Slow-Mo, Rak Stainless, Survey & Gambar 3D Gratis.
+                <p className="text-xs text-slate-300 mt-2">
+                  *Perkiraan Rp {formatRupiah(calculationResult.hargaPerM2)} {calculationResult.unitLabel}. Angka pasti akan disesuaikan saat survey lokasi resmi.
                 </p>
               </div>
 
               <button
-                onClick={handleSendEstimateToWa}
-                className="w-full md:w-auto px-6 py-3.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-2 shrink-0"
+                onClick={handleSendRabToWa}
+                className="w-full md:w-auto px-7 py-4 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-950 flex items-center justify-center gap-2 shrink-0 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
                 Konsultasikan RAB Ini ke WhatsApp
               </button>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* 5. SERVICES & PRICING TRANSPARENCY */}
+      {/* 6. SATU MITRA UNTUK SELURUH PROSES MEMBANGUN RUMAH ANDA (SERVICES) */}
       <section id="layanan" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
-            Katalog Layanan Presisi
+        
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#1E3FE0] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            Layanan Terintegrasi
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-            Pilihan Pekerjaan Interior & Custom Furniture
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1A4A] mt-3">
+            Satu mitra untuk seluruh proses membangun rumah Anda.
           </h2>
-          <p className="text-stone-600 text-sm mt-2">
-            Setiap pengerjaan menggunakan bahan berkualitas tinggi dengan garansi resmi pemeliharaan 1 tahun.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {interiorServices.map((service) => (
-            <div
-              key={service.id}
-              className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
-            >
-              <div className="p-6 sm:p-8">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  {service.badge && (
-                    <span className="px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 text-[11px] font-bold tracking-wide">
-                      {service.badge}
-                    </span>
-                  )}
-                  <span className="text-xs text-stone-500 font-medium flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-stone-400" />
-                    {service.duration}
-                  </span>
-                </div>
-
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 mb-2">
-                  {service.name}
-                </h3>
-                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-6">
-                  {service.description}
-                </p>
-
-                {/* Price Display */}
-                <div className="bg-stone-50 p-4 rounded-xl border border-stone-200/80 mb-6">
-                  <span className="text-[11px] uppercase font-bold text-stone-500 block">Mulai dari:</span>
-                  <div className="font-serif text-2xl font-bold text-amber-900">
-                    {formatRupiah(service.priceStart)}
-                    <span className="text-xs font-normal text-stone-600 ml-1.5 font-sans">
-                      / {service.unit}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Specs List */}
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">
-                      Spesifikasi Material:
-                    </h4>
-                    <ul className="space-y-1.5 text-xs text-stone-600">
-                      {service.materials.map((mat, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <Check className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
-                          <span>{mat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">
-                      Fitur & Keunggulan:
-                    </h4>
-                    <ul className="space-y-1.5 text-xs text-stone-600">
-                      {service.specs.map((spec, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
-                          <span>{spec}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Footer */}
-              <div className="p-6 bg-stone-50 border-t border-stone-100 flex items-center justify-between gap-4">
-                <button
-                  onClick={() => handleConsultWa(service.name)}
-                  className="w-full py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-400 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Konsultasikan Desain Ini
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 6. MATERIAL INTEGRITY COMPARISON (BUKTI KEJUJURAN KONTRAKTOR) */}
-      <section id="material" className="py-20 bg-stone-900 text-stone-100 border-y border-stone-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/60 border border-amber-800 px-3 py-1 rounded-full">
-              Edukasi Klien Cerdas
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mt-3">
-              Jangan Tertipu Harga Murah Tapi Cepat Rusak
-            </h2>
-            <p className="text-stone-400 text-sm mt-2">
-              Banyak kontraktor interior memangkas harga dengan menggunakan serbuk kayu (MDF/Particle Board) yang mudah hancur terkena air dan lembap.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Standar Kami */}
-            <div className="bg-stone-800/90 rounded-2xl p-6 sm:p-8 border-2 border-amber-500/80 relative shadow-xl">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold mb-4">
-                <ShieldCheck className="w-4 h-4" />
-                Standar Kualitas {brandName}
-              </div>
-              <h3 className="font-serif text-xl font-bold text-white mb-4">
-                Awet Puluhan Tahun & Tahan Air
-              </h3>
-              <ul className="space-y-3.5 text-xs sm:text-sm text-stone-300">
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white block">100% Plywood / Multiplek Meranti 18mm:</strong>
-                    Kayu lapis padat asli, tahan lembap, tidak mudah melengkung, dan anti rayap.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white block">Engsel Slow-Motion & Rel Laci Tandem:</strong>
-                    Pintu menutup perlahan tanpa suara benturan keras, awet ratusan ribu kali buka-tutup.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white block">Edging PVC Tebal 1-2mm:</strong>
-                    Pinggiran kabinet direkatkan mesin khusus, sudut tumpul halus tidak tajam melukai tangan.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white block">Garansi Resmi Pemeliharaan 1 Tahun:</strong>
-                    Ada kendala engsel anjlok atau HPL mengelupas? Tim teknis kami datang gratis.
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            {/* Mebel Murahan */}
-            <div className="bg-stone-950/60 rounded-2xl p-6 sm:p-8 border border-stone-800">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-950/60 border border-rose-800/80 text-rose-400 text-xs font-bold mb-4">
-                <XCircle className="w-4 h-4" />
-                Mebel Pabrikan Murah / Kontraktor Abal-Abal
-              </div>
-              <h3 className="font-serif text-xl font-bold text-stone-300 mb-4">
-                Gampang Remuk dalam 1-2 Tahun
-              </h3>
-              <ul className="space-y-3.5 text-xs sm:text-sm text-stone-400">
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-stone-300 block">MDF / Particle Board (Serbuk Gergaji Dipres):</strong>
-                    Kena percikan air sedikit saja langsung mekar, berjamur, dan rontok jadi bubur.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-stone-300 block">Engsel Besi Biasa Tanpa Hidrolik:</strong>
-                    Mudah berkarat, pintu sering terbanting keras dan sekrup mudah copot dari dudukannya.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-stone-300 block">Pelapis Paper Foil Tipis (Kertas Sablon):</strong>
-                    Mudah sobek jika tergores kuku atau pisau, warna cepat pudar dan pinggiran mengelupas.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-stone-300 block">Lepas Tangan Setelah Pembayaran:</strong>
-                    Tidak menyediakan layanan purna jual atau garansi ketika furniture mulai rusak.
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. PORTFOLIO SHOWCASE */}
-      <section id="portofolio" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
-            Galeri Realisasi Proyek
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-            Hasil Pengerjaan Nyata di Surabaya
-          </h2>
-          <p className="text-stone-600 text-sm mt-2">
-            Mulai dari residensial mewah di Citraland & Pakuwon hingga unit apartemen modern.
+          <p className="text-slate-600 text-sm mt-2">
+            Dari tanah kosong hingga siap ditempati, Anda tidak perlu repot mencari arsitek, pemborong, dan tukang interior secara terpisah.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {filteredProjects.map((proj, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-lg transition-all group"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
-                <Image
-                  src={proj.image}
-                  alt={proj.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 bg-stone-900/85 backdrop-blur-sm text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-md">
-                  {proj.category}
-                </div>
+          
+          {/* Service 1: Bangun Baru */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1E3FE0] flex items-center justify-center mb-6">
+                <Home className="w-6 h-6" />
               </div>
-
-              <div className="p-6">
-                <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-amber-700" />
-                  <span>{proj.location}</span>
-                </div>
-                <h3 className="font-serif text-lg font-bold text-stone-900 mb-2 leading-snug">
-                  {proj.title}
-                </h3>
-                <p className="text-stone-600 text-xs leading-relaxed mb-4">
-                  {proj.desc}
-                </p>
-                <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 px-2 py-1 rounded">
-                    {proj.scope}
-                  </span>
-                  <button
-                    onClick={() => handleConsultWa(proj.title)}
-                    className="text-stone-900 hover:text-amber-800 text-xs font-bold flex items-center gap-1 transition-colors"
-                  >
-                    Bikin Desain Serupa &rarr;
-                  </button>
-                </div>
-              </div>
+              <h3 className="text-xl font-bold text-[#0B1A4A] mb-2">
+                Pembangunan Rumah Baru
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                Pengerjaan konstruksi dari nol sesuai gambar arsitektur. Mulai dari pondasi cakar ayam/strauss pile, sloof beton bertulang, dinding, atap baja ringan, hingga instalasi mekanikal & elektrikal.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-700 font-medium">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Struktur Kokoh Tahan Gempa SNI</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Termasuk Gambar DED & IMB / PBG</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Garansi Konstruksi 1 Tahun</span>
+                </li>
+              </ul>
             </div>
-          ))}
+            <div className="pt-6 mt-6 border-t border-slate-100">
+              <button
+                onClick={() => handleConsultWa('Pembangunan Rumah Baru')}
+                className="w-full py-2.5 rounded-lg bg-slate-100 hover:bg-[#0B1A4A] hover:text-white text-[#0B1A4A] text-xs font-bold uppercase tracking-wider transition-all"
+              >
+                Tanya Spesifikasi &rarr;
+              </button>
+            </div>
+          </div>
+
+          {/* Service 2: Renovasi Rumah */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1E3FE0] flex items-center justify-center mb-6">
+                <Hammer className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0B1A4A] mb-2">
+                Renovasi Total & Tambah Lantai
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                Meningkat lantai 2 dengan sistem dak beton efisien, perbaikan struktur atap lapuk/bocor, ubah layout ruang keluarga, hingga peremajaan tampak fasad rumah agar modern kembali.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-700 font-medium">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Pengecekan Kekuatan Fondasi Awal</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Pengerjaan Bersih Tanpa Merusak Rumah Tetangga</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Manajemen Waktu Presisi</span>
+                </li>
+              </ul>
+            </div>
+            <div className="pt-6 mt-6 border-t border-slate-100">
+              <button
+                onClick={() => handleConsultWa('Renovasi Total & Tambah Lantai')}
+                className="w-full py-2.5 rounded-lg bg-slate-100 hover:bg-[#0B1A4A] hover:text-white text-[#0B1A4A] text-xs font-bold uppercase tracking-wider transition-all"
+              >
+                Konsultasi Renovasi &rarr;
+              </button>
+            </div>
+          </div>
+
+          {/* Service 3: Desain Arsitektur & Interior */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1E3FE0] flex items-center justify-center mb-6">
+                <Compass className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0B1A4A] mb-2">
+                Desain Arsitektur & Interior
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                Visualisasi 3D fotorealistik denah interior dan eksterior sebelum dibangun. Dilengkapi pembuatan custom kitchen set, backdrop TV, dan wardrobe dari workshop pribadi.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-700 font-medium">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>3D Render Realistis Siap Eksekusi</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Fabrikasi Workshop Sendiri (Anti-Rayap)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                  <span>Biaya Desain Gratis jika Lanjut Pembangunan</span>
+                </li>
+              </ul>
+            </div>
+            <div className="pt-6 mt-6 border-t border-slate-100">
+              <button
+                onClick={() => handleConsultWa('Desain Arsitektur & Interior')}
+                className="w-full py-2.5 rounded-lg bg-slate-100 hover:bg-[#0B1A4A] hover:text-white text-[#0B1A4A] text-xs font-bold uppercase tracking-wider transition-all"
+              >
+                Lihat Paket Desain &rarr;
+              </button>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* 8. WORKFLOW STEPS */}
-      <section id="alur-kerja" className="py-20 bg-stone-100 border-y border-stone-200">
+      {/* 7. TAHAPAN PENGERJAAN TRANSPARAN (DARI SURVEY SAMPAI SERAH TERIMA) */}
+      <section id="proses" className="py-20 bg-white border-t border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-200/60 px-3 py-1 rounded-full">
-              Transparan & Terstruktur
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3FE0] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+              Alur Kerja Rapi
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-              4 Langkah Mudah Mewujudkan Interior Impian
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1A4A] mt-3">
+              Tahapan kerja jelas, dari konsultasi sampai serah terima kunci.
             </h2>
-            <p className="text-stone-600 text-sm mt-2">
-              Proses pengerjaan rapi dan tepat waktu tanpa membuat Anda pusing.
+            <p className="text-slate-600 text-sm mt-2">
+              Proses kerja terstruktur tanpa biaya mendadak di tengah pembangunan.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {interiorWorkflow.map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl p-6 border border-stone-200 shadow-sm relative"
-              >
-                <span className="font-serif text-4xl font-bold text-amber-200 block mb-2">
-                  {item.step}
+            {[
+              { step: '01', title: 'Survey Lokasi & Pengukuran', desc: 'Tim arsitek datang mengukur tanah kavling atau rumah eksisting dan mendiskusikan kebutuhan ruang Anda.' },
+              { step: '02', title: 'Gambar 3D & Penyusunan RAB', desc: 'Kami buatkan visualisasi desain dan dokumen RAB terperinci yang mencantumkan spesifikasi setiap material.' },
+              { step: '03', title: 'SPK & Pembayaran Bertahap', desc: 'Penandatanganan Surat Perjanjian Kerja berkekuatan hukum. Sistem pembayaran termin sesuai bobot fisik di lapangan.' },
+              { step: '04', title: 'Serah Terima & Garansi', desc: 'Inspeksi checklist bersama klien saat rumah rampung, serah terima kunci, serta penerbitan sertifikat garansi resmi.' }
+            ].map((p, idx) => (
+              <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative">
+                <span className="text-3xl font-extrabold text-[#1E3FE0]/30 font-mono block mb-3">
+                  {p.step}
                 </span>
-                <h3 className="font-serif text-lg font-bold text-stone-900 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-stone-600 text-xs leading-relaxed">
-                  {item.desc}
-                </p>
+                <h3 className="font-bold text-base text-[#0B1A4A] mb-2">{p.title}</h3>
+                <p className="text-slate-600 text-xs leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* 9. TESTIMONIALS */}
-      <section id="testimoni" className="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
-            Kepuasan Klien Residensial
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-            Apa Kata Pemilik Rumah di Surabaya?
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {contractorTestimonials.map((t, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-xl p-6 border border-stone-200 shadow-sm flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-1 text-amber-500 mb-3">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-500" />
-                  ))}
-                </div>
-                <p className="text-stone-700 text-xs sm:text-sm leading-relaxed italic mb-4">
-                  &ldquo;{t.comment}&rdquo;
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-stone-100">
-                <span className="font-bold text-sm text-stone-900 block">{t.client}</span>
-                <span className="text-xs text-amber-800 font-medium block">{t.projectType}</span>
-                <span className="text-[11px] text-stone-500">{t.location} &bull; {t.year}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 10. FAQ ACCORDION */}
-      <section className="py-20 bg-stone-100 border-t border-stone-200">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-200/60 px-3 py-1 rounded-full">
-              Tanya Jawab Populer
+      {/* 8. KATALOG PROYEK (PORTOFOLIO) */}
+      <section id="proyek" className="py-20 bg-[#F4F6FB] border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3FE0] bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+              Bukti Realisasi Lapangan
             </span>
-            <h2 className="font-serif text-3xl font-bold text-stone-900 mt-3">
-              Pertanyaan yang Sering Diajukan
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1A4A] mt-3">
+              Katalog proyek yang sudah kami kerjakan.
+            </h2>
+            <p className="text-slate-600 text-sm mt-2">
+              Kualitas pengerjaan nyata di berbagai kawasan residensial Sidoarjo & Surabaya.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {contractorProjects.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all group"
+              >
+                <div className="relative aspect-[4/3] bg-slate-900 overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 bg-[#0B1A4A]/90 backdrop-blur-sm text-[#F5C518] text-[10px] font-bold px-2.5 py-1 rounded-md">
+                    {item.category}
+                  </div>
+                  <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-semibold px-2 py-0.5 rounded">
+                    {item.duration}
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="flex items-center gap-1 text-xs text-slate-500 mb-2">
+                    <MapPin className="w-3.5 h-3.5 text-[#1E3FE0]" />
+                    <span>{item.location}</span>
+                  </div>
+                  <h3 className="font-bold text-base text-[#0B1A4A] mb-2 leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-600 text-xs leading-relaxed mb-4">
+                    {item.desc}
+                  </p>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[11px] text-slate-500 font-mono">
+                      {item.specs.split('|')[0]}
+                    </span>
+                    <button
+                      onClick={() => handleConsultWa(item.title)}
+                      className="text-[#1E3FE0] hover:text-[#0B1A4A] text-xs font-bold flex items-center gap-1 transition-colors"
+                    >
+                      Bikin Seperti Ini &rarr;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 9. TESTIMONIALS (KATA MEREKA YANG SUDAH SELESAI MEMBANGUN BERSAMA KAMI) */}
+      <section id="testimoni" className="py-20 bg-white border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3FE0] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+              Ulasan Klien Nyata
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1A4A] mt-3">
+              Kata mereka yang sudah selesai membangun bersama kami.
             </h2>
           </div>
 
-          <div className="space-y-3">
-            {interiorFaqs.map((faq, idx) => {
-              const isOpen = openFaqIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-sm transition-all"
-                >
-                  <button
-                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm text-stone-900"
-                  >
-                    <span>{faq.q}</span>
-                    {isOpen ? (
-                      <ChevronUp className="w-4 h-4 text-amber-800 shrink-0" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-stone-400 shrink-0" />
-                    )}
-                  </button>
-                  {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-stone-100">
-                      {faq.a}
-                    </div>
-                  )}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                client: 'Bapak Hendra Setiawan',
+                scope: 'Bangun Rumah 2 Lantai Tipe 180',
+                loc: 'Kahuripan Nirwana Sidoarjo',
+                text: 'Sangat puas dengan kedisiplinan tim di lapangan. Laporan video tiap minggu sangat detail. Tidak ada drama tukang kabur atau biaya minta nambah di tengah jalan.'
+              },
+              {
+                client: 'Ibu Rina Anggraini',
+                scope: 'Renovasi Dak Lantai 2 & Fasad',
+                loc: 'Puri Surya Jaya Sidoarjo',
+                text: 'Renovasi rumah lama jadi kelihatan seperti rumah baru modern. Struktur dak betonnya rapi, musim hujan kemarin sama sekali tidak ada rembes.'
+              },
+              {
+                client: 'drg. Dimas Prasetyo',
+                scope: 'Rumah Tinggal & Interior Custom',
+                loc: 'CitraGarden Sidoarjo',
+                text: 'Paling menghargai transparansi RAB-nya. Semua merek pipa, semen, dan kabel listrik sama persis dengan yang tertulis di kontrak perjanjian kerja.'
+              }
+            ].map((t, idx) => (
+              <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-1 text-[#F5C518] mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-[#F5C518]" />
+                    ))}
+                  </div>
+                  <p className="text-slate-700 text-xs sm:text-sm leading-relaxed italic mb-4">
+                    &ldquo;{t.text}&rdquo;
+                  </p>
                 </div>
-              );
-            })}
+                <div className="pt-3 border-t border-slate-200/80">
+                  <span className="font-bold text-sm text-[#0B1A4A] block">{t.client}</span>
+                  <span className="text-xs text-[#1E3FE0] font-medium block">{t.scope}</span>
+                  <span className="text-[11px] text-slate-500">{t.loc}</span>
+                </div>
+              </div>
+            ))}
           </div>
+
         </div>
       </section>
 
-      {/* 11. FREE SURVEY BOOKING FORM */}
-      <section id="survey-gratis" className="py-20 bg-white border-t border-stone-200">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 10. FORM PENDAFTARAN SURVEY LOKASI GRATIS */}
+      <section id="kontak" className="py-20 bg-[#0B1A4A] text-white border-t border-blue-950 relative overflow-hidden">
+        
+        {/* Subtle grid in background */}
+        <div 
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: 'linear-gradient(to right, #2FB6EF 1px, transparent 1px), linear-gradient(to bottom, #2FB6EF 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }}
+        />
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
           <div className="text-center mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
-              Layanan Spesial
+            <span className="text-xs font-bold uppercase tracking-wider text-[#F5C518] bg-blue-900/60 px-3 py-1 rounded-full border border-blue-700">
+              Layanan Survey Lapangan
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-              Jadwalkan Survey Lokasi Gratis ke Rumah Anda
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mt-3">
+              Jadwalkan Survey Lokasi & Konsultasi Teknis Gratis
             </h2>
-            <p className="text-stone-600 text-sm mt-2">
-              Tim arsitek & surveyor kami siap datang langsung membawa sampel katalog HPL, marmer, dan mengukur ruangan secara presisi tanpa dipungut biaya.
+            <p className="text-slate-300 text-sm mt-2">
+              Tim arsitek & estimator kami siap datang langsung ke lokasi tanah atau rumah Anda di Sidoarjo, Surabaya, dan sekitarnya tanpa dipungut biaya.
             </p>
           </div>
 
           <form
             onSubmit={handleFormSubmit}
-            className="bg-stone-50 rounded-2xl p-6 sm:p-10 border border-stone-200 shadow-md space-y-5"
+            className="bg-white text-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-4"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                   Nama Lengkap *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Contoh: Ibu Jessica"
+                  placeholder="Contoh: Bapak Irwan"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3FE0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
-                  No. WhatsApp Aktif *
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Nomor WhatsApp Aktif *
                 </label>
                 <input
                   type="tel"
@@ -921,137 +1001,140 @@ function InteriorContractorContent() {
                   placeholder="Contoh: 08123456789"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3FE0]"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
-                  Lokasi / Perumahan di Surabaya *
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Lokasi Tanah / Rumah di Sidoarjo *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Contoh: Cluster Pakuwon City / Citraland"
+                  placeholder="Contoh: Perumahan Puri Surya Jaya / Sedati"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3FE0]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
-                  Rencana Ruangan yang Ingin Didekor
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Jenis Rencana Pekerjaan
                 </label>
                 <select
-                  value={formData.roomType}
-                  onChange={(e) => setFormData({ ...formData, roomType: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700"
+                  value={formData.serviceType}
+                  onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3FE0]"
                 >
-                  <option value="Kitchen Set & Ruang Makan">Kitchen Set & Ruang Makan</option>
-                  <option value="Backdrop TV Living Room">Backdrop TV Living Room</option>
-                  <option value="Wardrobe & Kamar Tidur Utama">Wardrobe & Kamar Tidur Utama</option>
-                  <option value="Interior Rumah Full (2 Lantai)">Interior Rumah Full (2 Lantai)</option>
-                  <option value="Paket Interior Apartemen">Paket Interior Apartemen</option>
+                  <option value="Pembangunan Rumah Baru dari Nol">Pembangunan Rumah Baru dari Nol</option>
+                  <option value="Renovasi Total & Tambah Lantai 2">Renovasi Total & Tambah Lantai 2</option>
+                  <option value="Desain Arsitektur & Perhitungan RAB Saja">Desain Arsitektur & Perhitungan RAB Saja</option>
+                  <option value="Interior Rumah & Kitchen Set Custom">Interior Rumah & Kitchen Set Custom</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
-                Rencana Waktu Survey yang Diinginkan
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                Estimasi Alokasi Anggaran
               </label>
-              <input
-                type="text"
-                placeholder="Contoh: Sabtu depan jam 10 pagi atau menyesuaikan"
-                value={formData.preferredDate}
-                onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700"
-              />
+              <select
+                value={formData.estimatedBudget}
+                onChange={(e) => setFormData({ ...formData, estimatedBudget: e.target.value })}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3FE0]"
+              >
+                <option value="Di bawah Rp 150 Juta (Renovasi Parsial)">Di bawah Rp 150 Juta (Renovasi Parsial)</option>
+                <option value="Rp 150 Juta - Rp 350 Juta">Rp 150 Juta - Rp 350 Juta</option>
+                <option value="Rp 350 Juta - Rp 700 Juta">Rp 350 Juta - Rp 700 Juta (Standar Rumah 2 Lantai)</option>
+                <option value="Di atas Rp 700 Juta (Hunian Mewah)">Di atas Rp 700 Juta (Hunian Mewah)</option>
+              </select>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
-                Catatan Tambahan / Konsep yang Disukai (Opsional)
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                Catatan Kebutuhan Ruang (Opsional)
               </label>
               <textarea
                 rows={3}
-                placeholder="Contoh: Mau konsep Japandi kayu oak muda dengan island table marmer putih..."
+                placeholder="Contoh: Rencana bangun 2 lantai dengan 4 kamar tidur, void sirkulasi udara, dan garasi 2 mobil..."
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-lg border border-stone-300 bg-white text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-700"
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3FE0]"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-4 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-bold text-sm tracking-wide uppercase transition-all shadow-lg shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] hover:brightness-110 text-white font-extrabold text-sm uppercase tracking-wider transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
               <Send className="w-4 h-4" />
               Kirim & Jadwalkan Survey Gratis via WhatsApp
             </button>
           </form>
+
         </div>
       </section>
 
-      {/* 12. FOOTER */}
-      <footer className="bg-stone-950 text-stone-400 py-12 border-t border-stone-800 text-xs">
+      {/* 11. FOOTER */}
+      <footer className="bg-[#081235] text-slate-400 py-12 border-t border-blue-950 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <span className="font-serif font-bold text-lg text-white block mb-2">
+              <span className="font-bold text-lg text-white block mb-2">
                 {brandName}
               </span>
-              <p className="text-stone-400 leading-relaxed mb-3">
-                {defaultInteriorConfig.tagline}
+              <p className="text-slate-400 leading-relaxed mb-3">
+                Jasa Kontraktor Bangun Rumah, Renovasi Total, dan Desain Arsitektur Terpercaya di Sidoarjo & Jawa Timur.
               </p>
-              <p className="text-stone-500">
-                {defaultInteriorConfig.address}
+              <p className="text-slate-500">
+                Wilayah Layanan: Sidoarjo, Surabaya, Gresik, Pasuruan, dan Mojokerto.
               </p>
             </div>
 
             <div>
-              <span className="font-bold text-stone-200 block mb-2">Area Layanan Survey:</span>
-              <p className="leading-relaxed text-stone-400">
-                Surabaya Barat (Citraland, Graha Famili, Pakuwon Indah), Surabaya Timur (Pakuwon City, Dharmahusada), Surabaya Selatan, Pusat, serta Sidoarjo dan Gresik.
+              <span className="font-bold text-slate-200 block mb-2">Komitmen Kerja:</span>
+              <p className="leading-relaxed text-slate-400">
+                100% Mengacu pada Gambar Kerja Teknis (DED), Rincian Anggaran Biaya (RAB) Transparan, serta Garansi Retensi Konstruksi.
               </p>
-              <span className="font-bold text-stone-200 block mt-3 mb-1">Jam Operasional:</span>
-              <p className="text-stone-400">{defaultInteriorConfig.operatingHours}</p>
+              <span className="font-bold text-slate-200 block mt-3 mb-1">Jam Operasional:</span>
+              <p className="text-slate-400">Senin - Sabtu: 08.00 - 17.00 WIB (Survey Lokasi Setiap Hari Sesuai Perjanjian)</p>
             </div>
 
             <div>
-              <span className="font-bold text-stone-200 block mb-2">Kemitraan Digital:</span>
-              <p className="leading-relaxed text-stone-400 mb-3">
-                Website portofolio interaktif ini dikembangkan secara profesional oleh <strong>NARA Digital Studio Surabaya</strong> untuk meningkatkan konversi klien residensial bernilai tinggi.
+              <span className="font-bold text-slate-200 block mb-2">Pengembangan Digital:</span>
+              <p className="leading-relaxed text-slate-400 mb-3">
+                Website showcase arsitektur & kalkulator estimasi ini dikembangkan secara profesional oleh <strong>NARA Dev Studio</strong> untuk meningkatkan konversi klien residensial.
               </p>
               <a
-                href={`https://wa.me/6285602743489?text=Halo%20NARA%20Digital,%20saya%20tertarik%20konsultasi%20website%20untuk%20${encodeURIComponent(brandName)}`}
+                href={`https://wa.me/6285602743489?text=Halo%20NARA%20Dev,%20saya%20tertarik%20konsultasi%20website%20arsitektur%20untuk%20${encodeURIComponent(brandName)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-amber-400 hover:text-white font-semibold transition-colors"
+                className="text-[#F5C518] hover:text-white font-semibold transition-colors inline-flex items-center gap-1"
               >
                 Konsultasi Pembuatan Website Serupa &rarr;
               </a>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-stone-800 text-center text-stone-500">
-            &copy; {new Date().getFullYear()} {brandName}. Hak Cipta Dilindungi. All Rights Reserved.
+          <div className="pt-8 border-t border-blue-950 text-center text-slate-500">
+            &copy; {new Date().getFullYear()} {brandName}. Seluruh Hak Cipta Dilindungi.
           </div>
         </div>
       </footer>
 
-      {/* 13. MOBILE STICKY BOTTOM BAR */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-stone-900/95 backdrop-blur-md border-t border-stone-800 p-3 sm:hidden flex items-center justify-between gap-3">
+      {/* 12. MOBILE STICKY BOTTOM BAR */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#0B1A4A]/95 backdrop-blur-md border-t border-blue-900 p-3 sm:hidden flex items-center justify-between gap-3 shadow-2xl">
         <div className="text-left pl-1">
-          <span className="text-[10px] text-stone-400 uppercase tracking-wide block">Survey & 3D Render</span>
-          <span className="text-xs font-bold text-amber-400">100% Gratis</span>
+          <span className="text-[10px] text-slate-400 uppercase tracking-wide block">Survey & Hitung RAB</span>
+          <span className="text-xs font-bold text-[#F5C518]">100% Gratis</span>
         </div>
         <button
           onClick={() => handleConsultWa()}
-          className="flex-1 py-2.5 px-4 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
+          className="flex-1 py-2.5 px-4 rounded-full bg-gradient-to-r from-[#1E3FE0] to-[#2FB6EF] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
         >
           <MessageCircle className="w-4 h-4" />
           Chat WhatsApp
@@ -1062,14 +1145,14 @@ function InteriorContractorContent() {
   );
 }
 
-export default function InteriorContractorDemoPage() {
+export default function ContractorDemoPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center text-stone-600 font-medium">
-        Memuat portofolio interior...
+      <div className="min-h-screen bg-[#0B1A4A] flex items-center justify-center text-slate-200 font-medium">
+        Memuat portofolio arsitektur...
       </div>
     }>
-      <InteriorContractorContent />
+      <ContractorShowcaseContent />
     </Suspense>
   );
 }
